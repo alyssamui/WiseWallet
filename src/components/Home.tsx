@@ -78,8 +78,18 @@ const Home = () => {
               padding: "5%",
             }}
           >
-            <MoneyButton onClickFunc={() => {}} message={"Add Income"} />
-            <MoneyButton onClickFunc={() => {}} message={"Add Expense"} />
+            <MoneyButton
+              onClickFunc={() => {
+                expenseService.getAllExpenses();
+              }}
+              message={"Add Income"}
+            />
+            <MoneyButton
+              onClickFunc={() => {
+                expenseService.deleteAllExpenses();
+              }}
+              message={"Add Expense"}
+            />
           </Box>
         </Box>
       </Box>

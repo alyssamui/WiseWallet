@@ -80,25 +80,31 @@ class ExpenseService {
       });
     });
 
-    const data: any[] = [];
-    response
+    const data = response
       .then((res) => {
+        const expenses: any[] = [];
         Object.entries(res as object).forEach(([key, value]) => {
           if (key.includes(EXPENSE_ID_PREFIX)) {
-            data.push({ [key]: value });
+            expenses.push({ [key]: value });
           }
         });
 
+        console.log(res);
+        console.log(data);
+
         this.onSuccess(
-          `Retrieved all expenses: ${data
+          `Retrieved all expenses: ${expenses
             .map((expense) => `Expense<${Object.keys(expense as object)[0]}>`)
-            .toString()})}`
+            .toString()}`
         );
+        return expenses;
       })
       .catch((err) => {
         this.onError(err);
+        return [];
       });
-
+    console.log("DATA");
+    console.log(data);
     return data;
   }
 
@@ -128,11 +134,17 @@ class ExpenseService {
 
   async deleteAllExpenses() {
     const expenses = await this.getAllExpenses();
+    console.log("EXPENSES");
+    console.log(expenses);
 
     const expenseIds: string[] = [];
     expenses.forEach((expense) => {
       expenseIds.concat(Object.keys(expense as object));
+      console.log("keys");
+      console.log(Object.keys(expense as object));
     });
+
+    console.log(expenseIds);
 
     const response = new Promise((resolve, reject) => {
       chrome.storage.local.remove(expenseIds, () => {
@@ -148,7 +160,7 @@ class ExpenseService {
       .then((res) => {
         this.onSuccess(
           `Deleted all expenses: ${expenseIds
-            .map((id) => `Expense<${id}`)
+            .map((id) => `Expense<${id}>`)
             .toString()}`
         );
       })
