@@ -6,11 +6,16 @@ import Settings from "./Settings";
 import "./Home.css";
 import SettingsIcon from "@mui/icons-material/Settings";
 import MoneyButton from "./MoneyButton";
+import IncomeService from "../api/incomeService";
+import { PayType } from "../types/payType";
+import ExpenseService from "../api/ExpenseService";
 import Expenses from "./expenses/Expenses";
-import IncomeService, { PayType } from "../api/incomeService";
 
 export const color = "#f9bebe";
 const Home = () => {
+  const incomeService = new IncomeService();
+  const expenseService = new ExpenseService();
+
   useEffect(() => {
     WebFont.load({
       google: {
@@ -73,16 +78,7 @@ const Home = () => {
               padding: "5%",
             }}
           >
-            <MoneyButton
-              onClickFunc={() => {
-                IncomeService.setIncome(1, {
-                  title: "test",
-                  type: PayType.Weekly,
-                  amount: 10.0,
-                });
-              }}
-              message={"Add Income"}
-            />
+            <MoneyButton onClickFunc={() => {}} message={"Add Income"} />
             <MoneyButton onClickFunc={() => {}} message={"Add Expense"} />
           </Box>
         </Box>

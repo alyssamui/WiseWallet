@@ -1,48 +1,69 @@
+import { Income } from "../types/income";
+
+const INCOME_ID_PREFIX = "income_";
 
 class IncomeService {
-    
-    constructor() {
+  private onSuccess(data: any) {
+    console.log(`Added Income ${JSON.stringify(data)}`);
+  }
 
-    }
+  private onError(error: any): void {
+    console.log(error);
+  }
 
-    static OnSuccess(model : IncomeModel) {
-        console.log(`Added Income ${model.title}`);
-    }
+  async setIncome(id: number, data: Income) {
+    const incomeId = INCOME_ID_PREFIX + id;
+    const payload = {
+      [incomeId]: data,
+    };
 
-    // onError(error) {
-    //     console.log(`Error`)
-    // }
+    const response = new Promise((resolve, reject) => {
+      chrome.storage.local.set(payload, () => {
+        if (chrome.runtime.lastError) {
+          reject(`Failed to add income: ${JSON.stringify(payload)}`);
+        } else {
+          resolve(payload);
+        }
+      });
+    });
 
-    static async setIncome(id : number, model : IncomeModel) {
-        const income = "Income" + id;
-        console.log(`chrome storage local: ${chrome.storage}`)
+    response
+      .then((res) => {
+        this.onSuccess(res);
+      })
+      .catch((err) => {
+        this.onError(err);
+      });
+  }
 
-        new Promise((resolve, reject) => {chrome.storage.local.set({"test": 1}, () => {
-            resolve(console.log("SUCCESS"));
-        })});
+  async getIncome(id: number) {
+    const incomeId = INCOME_ID_PREFIX + id;
 
-            
-        // .then(() => {
-        //     IncomeService.OnSuccess(model);
-        // }); 
-    }
+    const response = new Promise((resolve, reject) => {
+      chrome.storage.local.get([incomeId], (items) => {
+        if (chrome.runtime.lastError) {
+          reject(
+            `Failed to retrieve entry for income<${incomeId}>: ${chrome.runtime.lastError}`
+          );
+        } else {
+          resolve(items);
+        }
+      });
+    });
 
-}
+    let data = undefined;
+    response
+      .then((res) => {
+        // TODO: improve happy path response
+        console.log(res);
+        data = res;
+      })
+      .catch((err) => {
+        this.onError(err);
+      });
 
-
-interface IncomeModel {
-    title: string;
-    description?: string;
-    type: PayType;
-    amount: number;
-    createdAt?: Date;
-}
-
-
-export enum PayType {
-    Hourly,
-    Weekly,
-    Salarly
+    return data;
+  }
 }
 
 export default IncomeService;
