@@ -15,16 +15,11 @@
   },
   "permissions": [
     "storage",
-    "activeTab"
+    "activeTab",
+    "https://*/*", "http://*/*"
   ],
   "optional_permissions": [
     "<all_urls>"
   ]
-  // "background": {
-  //   "service_worker": "background.ts"
-  // },
-  // "action": {
-  //   "default_title": "Action Button"
-  // }
 
 }
