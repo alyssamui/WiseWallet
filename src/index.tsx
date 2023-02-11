@@ -4,7 +4,6 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import Home from "./components/Home";
 import { Router } from "react-chrome-extension-router";
-import Webfont from 'webfontloader';
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
