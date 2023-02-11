@@ -15,9 +15,16 @@ class IncomeService {
 
     static async setIncome(id : number, model : IncomeModel) {
         const income = "Income" + id;
-        chrome.storage.sync.set({income: model}).then(() => {
-            IncomeService.OnSuccess(model);
-        }); 
+        console.log(`chrome storage local: ${chrome.storage}`)
+
+        new Promise((resolve, reject) => {chrome.storage.local.set({"test": 1}, () => {
+            resolve(console.log("SUCCESS"));
+        })});
+
+            
+        // .then(() => {
+        //     IncomeService.OnSuccess(model);
+        // }); 
     }
 
 }
@@ -32,7 +39,7 @@ interface IncomeModel {
 }
 
 
-enum PayType {
+export enum PayType {
     Hourly,
     Weekly,
     Salarly
