@@ -10,14 +10,6 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
-// useEffect(() => {
-//   Webfont.load({
-//     google: {
-//       families: ['Julee']
-//     }
-//   })
-// }, []);
-
 root.render(
   <React.StrictMode>
     <Router>
