@@ -6,8 +6,10 @@ import Settings from "./Settings";
 import "./Home.css";
 import SettingsIcon from "@mui/icons-material/Settings";
 import MoneyButton from "./MoneyButton";
+import Expenses from "./expenses/Expenses";
 import IncomeService, { PayType } from "../api/incomeService";
 
+export const color = "#f9bebe";
 const Home = () => {
   useEffect(() => {
     WebFont.load({
@@ -21,55 +23,73 @@ const Home = () => {
 
   return (
     <Box
-      className="Home font-loader"
       sx={{
-        flex: 3,
-        flexDirection: "column",
-        background: "#cb8080",
+        height: "100%",
       }}
     >
-      <Box
-        className="header"
-        sx={{ display: "flex", flexDirection: "row-reverse" }}
-      >
-        <IconButton
-          onClick={() => {
-            console.log("CLICKED");
-            goTo(Settings);
+      <Box sx={{ background: "white" }}>
+        <Box
+          className="top"
+          sx={{
+            flexDirection: "column",
+            background: color,
+            borderBottomRightRadius: "3rem",
           }}
         >
-          <SettingsIcon />
-        </IconButton>
+          <Box
+            className="header"
+            sx={{ display: "flex", flexDirection: "row-reverse" }}
+          >
+            <IconButton
+              onClick={() => {
+                console.log("CLICKED");
+                goTo(Settings);
+              }}
+            >
+              <SettingsIcon />
+            </IconButton>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: "16px",
+              background: "linear-gradient(145deg, #d98989, #b77373);",
+              margin: "5%",
+              overflow: "hidden",
+              padding: "10px",
+              boxShadow: 3,
+            }}
+          >
+            <Box sx={{ fontSize: 25, color: "white" }}>Current Budget:</Box>
+            <Box sx={{ fontSize: 20, color: "white" }}>$</Box>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-evenly",
+              padding: "5%",
+            }}
+          >
+            <MoneyButton
+              onClickFunc={() => {
+                IncomeService.setIncome(1, {
+                  title: "test",
+                  type: PayType.Weekly,
+                  amount: 10.0,
+                });
+              }}
+              message={"Add Income"}
+            />
+            <MoneyButton onClickFunc={() => {}} message={"Add Expense"} />
+          </Box>
+        </Box>
       </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          borderColor: "white",
-          borderRadius: "16px",
-          background: "linear-gradient(145deg, #d98989, #b77373);",
-          margin: "5%",
-          overflow: "hidden",
-          padding: "10px",
-          boxShadow: "32px 32px 65px #ad6d6d, -32px -32px 65px #e99393;",
-        }}
-      >
-        <Box sx={{ fontSize: 25, color: "white" }}>Current Budget:</Box>
-        <Box sx={{ fontSize: 20, color: "white" }}>$</Box>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <MoneyButton onClickFunc={() => {IncomeService.setIncome(1, {title : "test", type : PayType.Weekly, amount : 10.00})}} message={"Add Income"} />
-        <MoneyButton onClickFunc={() => {}} message={"Add Expense"} />
-      </Box>
+      <Expenses />
     </Box>
   );
 };
