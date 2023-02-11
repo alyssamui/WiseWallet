@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import Home from "./components/Home";
 import { Router } from "react-chrome-extension-router";
+import Webfont from 'webfontloader';
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
+// useEffect(() => {
+//   Webfont.load({
+//     google: {
+//       families: ['Julee']
+//     }
+//   })
+// }, []);
+
 root.render(
   <React.StrictMode>
     <Router>

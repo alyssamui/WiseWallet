@@ -6,16 +6,18 @@ import Settings from "./Settings";
 
 function Home() {
   return (
-    <Box className="Home" sx={{ bgcolor: "black" }}>
+    <Box className="Home" sx={{ flexDirection: "row" }}>
       Home
-      <Button
-        onClick={() => {
-          console.log("CLICKED");
-          goTo(Settings);
-        }}
-      >
-        Settings
-      </Button>
+      <Box className="header" sx={{ flexDirection: "row-reverse" }}>
+        <Button
+          onClick={() => {
+            console.log("CLICKED");
+            goTo(Settings);
+          }}
+        >
+          Settings
+        </Button>
+      </Box>
     </Box>
   );
 }
