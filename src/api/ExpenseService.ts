@@ -19,6 +19,7 @@ class ExpenseService {
   //   })
   // }
 
+  // acts as both a post and put
   async setExpense(id: number, data: Expense) {
     const expenseId = EXPENSE_ID_PREFIX + id;
     const payload = {
@@ -104,6 +105,57 @@ class ExpenseService {
       });
 
     return data;
+  }
+
+  async deleteExpense(id: number) {
+    const expenseId = EXPENSE_ID_PREFIX + id;
+
+    const response = new Promise((resolve, reject) => {
+      chrome.storage.local.remove([expenseId], () => {
+        if (chrome.runtime.lastError) {
+          reject(
+            `Failed to delete expense<${expenseId}>: ${chrome.runtime.lastError}`
+          );
+        } else {
+          resolve(`Deleted expense<${expenseId}>`);
+        }
+      });
+    });
+
+    response
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        this.onError(err);
+      });
+  }
+
+  async deleteAllExpenses() {
+    const expenses = await this.getAllExpenses();
+
+    const expenseIds: string[] = [];
+    expenses.forEach((expense) => {
+      expenseIds.concat(Object.keys(expense as object));
+    });
+
+    const response = new Promise((resolve, reject) => {
+      chrome.storage.local.remove(expenseIds, () => {
+        if (chrome.runtime.lastError) {
+          reject(`Failed to delete all expenses: ${chrome.runtime.lastError}`);
+        } else {
+          resolve("Successfully deleted all expenses");
+        }
+      });
+    });
+
+    response
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        this.onError(err);
+      });
   }
 }
 
