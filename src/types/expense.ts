@@ -1,9 +1,8 @@
-import { PayType } from "./payType";
+import { Category } from "./category";
 
 export interface Expense {
   title: string;
-  description?: string;
-  type: PayType;
+  category: Category;
   amount: number;
   createdAt?: Date;
 }
