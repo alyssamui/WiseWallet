@@ -9,7 +9,9 @@ import MoneyButton from "./MoneyButton";
 import IncomeService from "../api/incomeService";
 import { PayType } from "../types/payType";
 import ExpenseService from "../api/ExpenseService";
+import Expenses from "./expenses/Expenses";
 
+export const color = "#f9bebe";
 const Home = () => {
   const incomeService = new IncomeService();
   const expenseService = new ExpenseService();
@@ -24,55 +26,64 @@ const Home = () => {
 
   return (
     <Box
-      className="Home font-loader"
       sx={{
-        flex: 3,
-        flexDirection: "column",
-        background: "#cb8080",
+        height: "100%",
       }}
     >
-      <Box
-        className="header"
-        sx={{ display: "flex", flexDirection: "row-reverse" }}
-      >
-        <IconButton
-          onClick={() => {
-            console.log("CLICKED");
-            goTo(Settings);
+      <Box sx={{ background: "white" }}>
+        <Box
+          className="top"
+          sx={{
+            flexDirection: "column",
+            background: color,
+            borderBottomRightRadius: "3rem",
           }}
         >
-          <SettingsIcon />
-        </IconButton>
+          <Box
+            className="header"
+            sx={{ display: "flex", flexDirection: "row-reverse" }}
+          >
+            <IconButton
+              onClick={() => {
+                console.log("CLICKED");
+                goTo(Settings);
+              }}
+            >
+              <SettingsIcon />
+            </IconButton>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: "16px",
+              background: "linear-gradient(145deg, #d98989, #b77373);",
+              margin: "5%",
+              overflow: "hidden",
+              padding: "10px",
+              boxShadow: 3,
+            }}
+          >
+            <Box sx={{ fontSize: 25, color: "white" }}>Current Budget:</Box>
+            <Box sx={{ fontSize: 20, color: "white" }}>$</Box>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-evenly",
+              padding: "5%",
+            }}
+          >
+            <MoneyButton onClickFunc={() => {}} message={"Add Income"} />
+            <MoneyButton onClickFunc={() => {}} message={"Add Expense"} />
+          </Box>
+        </Box>
       </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          borderColor: "white",
-          borderRadius: "16px",
-          background: "linear-gradient(145deg, #d98989, #b77373);",
-          margin: "5%",
-          overflow: "hidden",
-          padding: "10px",
-          boxShadow: "32px 32px 65px #ad6d6d, -32px -32px 65px #e99393;",
-        }}
-      >
-        <Box sx={{ fontSize: 25, color: "white" }}>Current Budget:</Box>
-        <Box sx={{ fontSize: 20, color: "white" }}>$</Box>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <MoneyButton onClickFunc={() => {}} message={"Add Income"} />
-        <MoneyButton onClickFunc={() => {}} message={"Add Expense"} />
-      </Box>
+      <Expenses />
     </Box>
   );
 };

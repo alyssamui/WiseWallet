@@ -13,7 +13,10 @@ interface MoneyButtonProps {
 
 const MoneyButton = (props: MoneyButtonProps) => {
   return (
-    <Button onClick={props.onClickFunc} sx={{ bgcolor: "B2EDC5" }}>
+    <Button
+      onClick={props.onClickFunc}
+      sx={{ padding: "3%", color: "white", ":hover": { bgcolor: "#b77373" } }}
+    >
       {props.message}
     </Button>
   );
