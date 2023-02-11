@@ -9,7 +9,8 @@ import MoneyButton from "./MoneyButton";
 import Expenses from "./expenses/Expenses";
 import IncomeService, { PayType } from "../api/incomeService";
 
-export const color = "#f9bebe";
+export const color = "#B79bd6";
+
 const Home = () => {
   useEffect(() => {
     WebFont.load({
@@ -23,15 +24,22 @@ const Home = () => {
     <Box
       sx={{
         height: "100%",
+        overflow: "hidden",
       }}
     >
-      <Box sx={{ background: "white" }}>
+      <Box
+        sx={{
+          background: "white",
+          position: "sticky",
+        }}
+      >
         <Box
           className="top"
           sx={{
             flexDirection: "column",
             background: color,
             borderBottomRightRadius: "3rem",
+            position: "sticky",
           }}
         >
           <Box
@@ -54,15 +62,15 @@ const Home = () => {
               justifyContent: "center",
               alignItems: "center",
               borderRadius: "16px",
-              background: "linear-gradient(145deg, #d98989, #b77373);",
+              background: "white",
               margin: "5%",
               overflow: "hidden",
               padding: "10px",
-              boxShadow: 3,
+              boxShadow: 1,
             }}
           >
-            <Box sx={{ fontSize: 25, color: "white" }}>Current Budget:</Box>
-            <Box sx={{ fontSize: 20, color: "white" }}>$</Box>
+            <Box sx={{ fontSize: 25, color: color }}>Current Budget:</Box>
+            <Box sx={{ fontSize: 20, color: color }}>$</Box>
           </Box>
           <Box
             sx={{
@@ -83,7 +91,7 @@ const Home = () => {
               }}
               message={"Add Income"}
             />
-            <MoneyButton onClickFunc={() => {}} message={"Add Expense"} />
+            <MoneyButton onClickFunc={() => {}} message={"Edit Budget"} />
           </Box>
         </Box>
       </Box>
