@@ -89,22 +89,24 @@ class ExpenseService {
           }
         });
 
-        console.log(res);
-        console.log(data);
-
-        this.onSuccess(
-          `Retrieved all expenses: ${expenses
-            .map((expense) => `Expense<${Object.keys(expense as object)[0]}>`)
-            .toString()}`
-        );
+        expenses.length === 0
+          ? this.onSuccess(
+              "Retrieve expenses successful. There are no expenses."
+            )
+          : this.onSuccess(
+              `Retrieved all expenses: ${expenses
+                .map(
+                  (expense) => `Expense<${Object.keys(expense as object)[0]}>`
+                )
+                .toString()}`
+            );
         return expenses;
       })
       .catch((err) => {
         this.onError(err);
         return [];
       });
-    console.log("DATA");
-    console.log(data);
+
     return data;
   }
 
@@ -134,17 +136,11 @@ class ExpenseService {
 
   async deleteAllExpenses() {
     const expenses = await this.getAllExpenses();
-    console.log("EXPENSES");
-    console.log(expenses);
 
     const expenseIds: string[] = [];
     expenses.forEach((expense) => {
-      expenseIds.concat(Object.keys(expense as object));
-      console.log("keys");
-      console.log(Object.keys(expense as object));
+      expenseIds.push(Object.keys(expense as object)[0]);
     });
-
-    console.log(expenseIds);
 
     const response = new Promise((resolve, reject) => {
       chrome.storage.local.remove(expenseIds, () => {
