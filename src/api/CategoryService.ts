@@ -1,4 +1,3 @@
-import { Category } from "../types/category";
 
 const CATEGORY_PREFIX = "category";
 
@@ -11,18 +10,15 @@ class CategoryService {
     console.log(error);
   }
 
-  static categoriesToString(categories: Category[]): string[] {
-    return categories.map((category) => category.title);
-  }
-
-  static stringsToCategories(strings: string[]): Category[] {
-    return strings.map((str) => ({ title: str } as Category));
-  }
 
   async addCategory(category: string) {
     // get all current categories and then update the stored list with the new category
     const categories = await this.getCategories();
-    categories.push({ title: category });
+    if (categories.findIndex((c) => {
+      return c === category
+    }) === -1) {
+      categories.push(category);
+    }
 
     const payload = {
       [CATEGORY_PREFIX]: categories,
@@ -66,7 +62,7 @@ class CategoryService {
       });
     });
 
-    let data: Category[] = [];
+    let data: string[] = [];
     response
       .then((res: any) => {
         this.onSuccess(`Retrieved all categories: ${JSON.stringify(res)}`);
@@ -82,7 +78,7 @@ class CategoryService {
   async deleteCategory(category: string) {
     // get all current categories and then update the stored list with the new category
     const categories = await this.getCategories();
-    const deleteIdx = categories.findIndex((c) => c.title === category);
+    const deleteIdx = categories.findIndex((c) => c === category);
     if (deleteIdx > -1) {
       categories.splice(deleteIdx, 1);
     } else {

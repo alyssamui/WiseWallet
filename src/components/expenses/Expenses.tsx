@@ -17,7 +17,6 @@ const Expenses = () => {
     const getData = async () => {
       const response = await service.getAllExpenses();
       setExpenses(response);
-      console.log("response", response);
     };
     getData();
   }, []);
@@ -55,14 +54,13 @@ const Expenses = () => {
       >
         {expenses.length > 0
           ? expenses.map((expense: any) => {
-              const e = Object.values(expense)[0] as Expense;
-              console.log(e.createdAt);
+              console.log(expense);
               return (
                 <ExpenseCard
-                  title={e.title}
-                  category={e.type}
-                  amount={e.amount}
-                  date={e.createdAt ? e.createdAt : ""}
+                  title={expense.title}
+                  category={expense.category}
+                  amount={expense.amount}
+                  date={expense.createdAt ? expense.createdAt : ""}
                 />
               );
             })
