@@ -1,7 +1,3 @@
-import { Box, maxHeight } from "@mui/system";
-import ExpenseCard from "./ExpenseCard";
-import { color } from "../Home";
-import MoneyButton from "../MoneyButton";
 import AddIcon from "@mui/icons-material/Add";
 import {
   Button,

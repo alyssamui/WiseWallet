@@ -5,17 +5,15 @@ import {
   DialogActions,
   DialogTitle,
   FormControlLabel,
-  FormGroup,
   IconButton,
   Switch,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import FeatureFlagService from "../api/FeatureFlagService";
 import { goTo } from "react-chrome-extension-router";
 import Home from "./Home";
-import { bgcolor } from "@mui/system";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ExpenseService from "../api/ExpenseService";
 
@@ -93,7 +91,7 @@ const Settings = () => {
       <Box sx={optionStyle}>
         <Button
           startIcon={<DeleteIcon />}
-          sx={{ color: "red", ":hover": { bgcolor: "#8e1b1b" } }}
+          sx={{ color: "red"}}
           onClick={() => {
             service.deleteAllExpenses();
             setOpenDeleteDialog(true);

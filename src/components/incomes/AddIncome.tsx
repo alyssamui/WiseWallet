@@ -1,25 +1,18 @@
-import { Box } from "@mui/system";
-import { color } from "../Home";
 import MoneyButton from "../MoneyButton";
-import AddIcon from "@mui/icons-material/Add";
 import {
   Button,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
-  IconButton,
   InputAdornment,
   MenuItem,
-  Select,
   TextField,
 } from "@mui/material";
 import { useState } from "react";
 
 import { PayType } from "../../types/payType";
 import IncomeService from "../../api/incomeService";
-import { months } from "../constants/Months";
 
 const AddIncome = () => {
   const [open, setOpen] = useState(false);
@@ -28,8 +21,6 @@ const AddIncome = () => {
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
   const [payType, setPayType] = useState("WEEKLY");
-
-  const service = new IncomeService();
 
   const handleAdd = () => {};
 

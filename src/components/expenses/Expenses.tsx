@@ -1,15 +1,10 @@
 import { Box } from "@mui/system";
 import ExpenseCard from "./ExpenseCard";
 import { color } from "../Home";
-import MoneyButton from "../MoneyButton";
-import AddIcon from "@mui/icons-material/Add";
-import { IconButton } from "@mui/material";
 import AddExpense from "./AddExpense";
 import { useEffect, useState } from "react";
 import ExpenseService from "../../api/ExpenseService";
-import { Expense } from "../../types/expense";
 import dayjsConfig, { DATETIME_FORMAT } from "../../config/dayjsConfig";
-import { months } from "../constants/Months";
 
 interface ExpensesProps {
   loadBudget: () => {};

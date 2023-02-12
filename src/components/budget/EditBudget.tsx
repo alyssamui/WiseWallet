@@ -1,17 +1,11 @@
-import { Box } from "@mui/system";
-import { color } from "../Home";
 import MoneyButton from "../MoneyButton";
-import AddIcon from "@mui/icons-material/Add";
 import {
   Button,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
-  IconButton,
   InputAdornment,
-  MenuItem,
   TextField,
 } from "@mui/material";
 import { useState } from "react";

@@ -9,10 +9,9 @@ import {
   MenuItem,
   TextField,
 } from "@mui/material";
-import { Box, shadows } from "@mui/system";
+import { Box } from "@mui/system";
 import { color, darkerColor } from "../Home";
 import Edit from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { useEffect, useRef, useState } from "react";
 import ExpenseService from "../../api/ExpenseService";
 import { DefaultCategories } from "../constants/DefaultCategories";

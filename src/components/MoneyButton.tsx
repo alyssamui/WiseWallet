@@ -1,10 +1,5 @@
-import { Box, Button, IconButton } from "@mui/material";
-import React, { useEffect } from "react";
-import { goTo } from "react-chrome-extension-router";
-import WebFont from "webfontloader";
-import Settings from "./Settings";
+import { Button } from "@mui/material";
 import "./Home.css";
-import { Function } from "@babel/types";
 import { color, darkerColor } from "./Home";
 
 interface MoneyButtonProps {

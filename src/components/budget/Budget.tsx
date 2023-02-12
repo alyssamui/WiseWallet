@@ -1,7 +1,4 @@
 import { Box } from "@mui/system";
-import React, { useEffect, useState } from "react";
-import BudgetService from "../../api/BudgetService";
-import { color } from "../Home";
 
 interface BudgetProps {
   loadBudget: () => {};

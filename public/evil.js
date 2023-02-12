@@ -1,4 +1,4 @@
-const response = new Promise((resolve, reject) => {
+const response = new Promise((resolve) => {
   resolve(chrome.storage.local.get("EvilMode"));
 });
 

@@ -1,6 +1,3 @@
-const FEATURE_FLAG_PREFIX = "flag";
-
-
 class FeatureFlagService {
 
   private onSuccess(data: any) {
