@@ -1,3 +1,4 @@
+import dayjsConfig from "../config/dayjsConfig";
 import { Expense } from "../types/expense";
 import ExpenseService from "./ExpenseService";
 
@@ -12,11 +13,16 @@ class BudgetService {
     console.log(error);
   }
 
-  async calculateCurrentBudget() {
+  async calculateCurrentBudgetLeft() {
     const budget = await this.getBudget();
     const service = new ExpenseService();
     const expenses = await service.getAllExpenses();
-    const costs = (expenses as Expense[]).reduce(
+    const currMonth = dayjsConfig().month();
+    const filteredExpenses = (expenses as Expense[]).filter((expense) => {
+      const expenseMonth = dayjsConfig(expense.createdAt).month();
+      return currMonth === expenseMonth;
+    });
+    const costs = filteredExpenses.reduce(
       (acc: number, curr: Expense) => acc + curr.amount,
       0
     );

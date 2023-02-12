@@ -12,6 +12,8 @@ import ExpenseService from "../api/ExpenseService";
 import Expenses from "./expenses/Expenses";
 import AddExpense from "./expenses/AddExpense";
 import AddIncome from "./incomes/AddIncome";
+import EditBudget from "./budget/EditBudget";
+import Budget from "./budget/Budget";
 
 export const color = "#B79bd6";
 export const darkerColor = "#8F73AF";
@@ -63,23 +65,7 @@ const Home = () => {
               <SettingsIcon />
             </IconButton>
           </Box>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              borderRadius: "16px",
-              background: "white",
-              margin: "5%",
-              overflow: "hidden",
-              padding: "10px",
-              boxShadow: 1,
-            }}
-          >
-            <Box sx={{ fontSize: 25, color: color }}>Current Budget:</Box>
-            <Box sx={{ fontSize: 20, color: color }}>$</Box>
-          </Box>
+          <Budget />
           <Box
             sx={{
               display: "flex",
@@ -89,8 +75,8 @@ const Home = () => {
               padding: "5%",
             }}
           >
-            <AddIncome/>
-            <MoneyButton onClickFunc={() => {}} message={"Edit Budget"} />
+            <AddIncome />
+            <EditBudget />
           </Box>
         </Box>
       </Box>
