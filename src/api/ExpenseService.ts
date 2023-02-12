@@ -21,7 +21,7 @@ class ExpenseService {
     const response = new Promise((resolve, reject) => {
       chrome.storage.local.set(payload, () => {
         if (chrome.runtime.lastError) {
-          reject(`Failed to add income: ${JSON.stringify(payload)}`);
+          reject(`Failed to add expense: ${JSON.stringify(payload)}`);
         } else {
           resolve(payload);
         }
@@ -52,16 +52,16 @@ class ExpenseService {
       });
     });
 
-    let data = undefined;
-    response
+    const data = response
       .then((res) => {
         this.onSuccess(
           `Retrieved Expense<${expenseId}>: ${JSON.stringify(res)}`
         );
-        data = res;
+        return Object.values(res as object);
       })
       .catch((err) => {
         this.onError(err);
+        return undefined;
       });
 
     return data;
