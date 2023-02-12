@@ -11,9 +11,9 @@
     "48": "logo192.png",
     "128": "logo192.png"
   },
-  "permissions": ["storage", "activeTab", "scripting"],
+  "permissions": ["storage", "activeTab", "scripting", "tabs"],
   "background": {
-    "service-worker": "background.ts"
+    "service-worker": "background.js"
   },
   "content_scripts": [
     {
