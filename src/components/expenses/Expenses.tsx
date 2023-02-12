@@ -18,28 +18,17 @@ interface ExpensesProps {
 const Expenses = (props: ExpensesProps) => {
   const [expenses, setExpenses] = useState<any>([]);
   const service = new ExpenseService();
+  const [expenseMonth, setExpenseMonth] = useState(dayjsConfig().month());
 
   const getData = async () => {
-    const response = await service.getCurrentExpenses();
+    const response = await service.getExpensesByMonth(expenseMonth);
     setExpenses(response);
     props.loadBudget();
   };
 
   useEffect(() => {
     getData();
-  }, []);
-
-  const getMaxId = (): number => {
-    let id = 0;
-    expenses.forEach((expense: Expense) => {
-      if (expense.id > id) {
-        id = expense.id;
-      }
-    });
-    return id;
-  };
-
-  const month = months[new Date().getMonth()];
+  }, [expenseMonth]);
 
   return (
     <Box>
@@ -57,14 +46,17 @@ const Expenses = (props: ExpensesProps) => {
             background: "white",
             borderTopLeftRadius: "3rem",
             alignItems: "center",
-            textDecorationLine: "underline",
-            textDecorationColor: color,
           }}
         >
-          {month} Expenses
+          <Box
+            sx={{ textDecorationLine: "underline", textDecorationColor: color }}
+          >
+            Expenses
+          </Box>
           <AddExpense
-            numExpenses={expenses.length > 0 ? getMaxId() + 1 : 1}
+            numExpenses={expenses.length}
             setState={getData}
+            setExpenseMonth={setExpenseMonth}
           />
         </Box>
       </Box>

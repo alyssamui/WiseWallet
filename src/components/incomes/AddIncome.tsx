@@ -12,12 +12,14 @@ import {
   IconButton,
   InputAdornment,
   MenuItem,
+  Select,
   TextField,
 } from "@mui/material";
 import { useState } from "react";
 
 import { PayType } from "../../types/payType";
 import IncomeService from "../../api/incomeService";
+import { months } from "../constants/Months";
 
 const AddIncome = () => {
   const [open, setOpen] = useState(false);
@@ -28,6 +30,7 @@ const AddIncome = () => {
   const [payType, setPayType] = useState("WEEKLY");
 
   const service = new IncomeService();
+<<<<<<< HEAD
 
   const handleAdd = () => {
     // service.
@@ -37,6 +40,14 @@ const AddIncome = () => {
     <>
       <MoneyButton onClickFunc={() => setOpen(true)} message={"Add Income"} />
 
+=======
+
+  const handleAdd = () => {};
+
+  return (
+    <>
+      <MoneyButton onClickFunc={() => setOpen(true)} message={"Add Income"} />
+>>>>>>> main
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Add an Income</DialogTitle>
         <DialogContent>

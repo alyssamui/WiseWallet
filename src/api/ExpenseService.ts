@@ -111,13 +111,17 @@ class ExpenseService {
     return data;
   }
 
-  async getCurrentExpenses() {
+  // expects month as a numerical 1-12
+  async getExpensesByMonth(month: number) {
+    console.log("cURRENT MONTH", month)
     const expenses = await this.getAllExpenses();
-    const currMonth = dayjsConfig().month();
     const filteredExpenses = (expenses as Expense[]).filter((expense) => {
+      console.log("created at", expense.createdAt)
       const expenseMonth = dayjsConfig(expense.createdAt).month();
-      return currMonth === expenseMonth;
+      console.log("expense month", expenseMonth)
+      return month === expenseMonth;
     });
+    console.log("FILT", filteredExpenses)
     return filteredExpenses.sort((e1, e2) => {
       const dayjsInst = dayjsConfig(e1.createdAt);
       if (dayjsInst.isBefore(e2.createdAt)) {
@@ -127,6 +131,11 @@ class ExpenseService {
       }
       return 1;
     });
+  }
+
+  async getNextId() {
+    const expenses = await this.getAllExpenses();
+    return expenses.sort((e1, e2) => e1.id - e2.id)[expenses.length - 1].id + 1;
   }
 
   async deleteExpense(id: number) {
