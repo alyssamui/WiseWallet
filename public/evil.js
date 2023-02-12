@@ -12,7 +12,6 @@ response.then((res) => {
     const allButtons = Array.from(document.getElementsByTagName("button"));
     const allSpans = Array.from(document.getElementsByTagName("span"));
     const all = allButtons.concat(allSpans);
-    const counter = 0;
     const filteredArray = all.filter((element) => {
       const text = element.textContent.toLowerCase();
       return text.includes("checkout") || element?.textContent?.includes("buy");
@@ -23,23 +22,22 @@ response.then((res) => {
       
       parent.removeChild(element);
       parent.appendChild(contentBlocker());
-      console(parent.firstChild);
-      parent.firstChild.onClick = () => {
-        counter++;
-        console.log(counter);
-        if (counter >= 5) {
-          window.location.href = `https://giphy.com/search/no-money`;
-          alert("");
-        }
-      };
     });
   }
 })
 
 const contentBlocker = () => {
+  let counter = 0;
   const replacement = document.createElement("button");
   applyStyling(replacement);
   replacement.type = "button";
+  replacement.onclick = () => {
+    counter++;
+    console.log(counter);
+    if (counter >= 5) {
+      window.location.href = `https://giphy.com/search/no-money`;
+    }
+  };
   return replacement;
 };
 
