@@ -11,10 +11,13 @@ response.then((res) => {
   if (res["EvilMode"]) {
     const allButtons = Array.from(document.getElementsByTagName("button"));
     const allSpans = Array.from(document.getElementsByTagName("span"));
-    const all = allButtons.concat(allSpans);
+    const allAs = Array.from(document.getElementsByTagName("a"));
+    const all = allButtons.concat(allSpans, allAs);
     const filteredArray = all.filter((element) => {
-      const text = element.textContent.toLowerCase();
-      return text.includes("checkout") || element?.textContent?.includes("buy");
+      let text = element.textContent.toLowerCase(); 
+      text = text.replace(" ", "");
+      return text.includes("checkout") || element?.textContent?.includes("buy") || element?.textContent?.includes("pay")
+      || element?.textContent?.includes("purchase") || element?.textContent?.includes("continue");
     });
 
     filteredArray.forEach((element) => {
