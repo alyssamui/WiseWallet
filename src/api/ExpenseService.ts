@@ -113,13 +113,13 @@ class ExpenseService {
 
   async getCurrentExpenses() {
     const expenses = await this.getAllExpenses();
-    const currMonth = new dayjsConfig.Dayjs().month();
+    const currMonth = dayjsConfig().month();
     const filteredExpenses = (expenses as Expense[]).filter((expense) => {
-      const expenseMonth = new dayjsConfig.Dayjs(expense.createdAt).month();
+      const expenseMonth = dayjsConfig(expense.createdAt).month();
       return currMonth === expenseMonth;
     });
     return filteredExpenses.sort((e1, e2) => {
-      const dayjsInst = new dayjsConfig.Dayjs(e1.createdAt);
+      const dayjsInst = dayjsConfig(e1.createdAt);
       if (dayjsInst.isBefore(e2.createdAt)) {
         return -1;
       } else if (dayjsInst.isSame(e2.createdAt)) {

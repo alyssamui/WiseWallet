@@ -17,7 +17,7 @@ class BudgetService {
     const budget = await this.getBudget();
     const service = new ExpenseService();
     const expenses = await service.getAllExpenses();
-    const currMonth = new dayjsConfig.Dayjs().month();
+    const currMonth = dayjsConfig().month();
     const filteredExpenses = (expenses as Expense[]).filter((expense) => {
       const expenseMonth = new dayjsConfig.Dayjs(expense.createdAt).month();
       return currMonth === expenseMonth;
