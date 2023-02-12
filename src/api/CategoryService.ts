@@ -14,7 +14,7 @@ class CategoryService {
   async addCategory(category: string) {
     // get all current categories and then update the stored list with the new category
     const categories = await this.getCategories();
-    if (categories.findIndex((c) => {
+    if (categories.findIndex((c: string) => {
       return c === category
     }) === -1) {
       categories.push(category);
