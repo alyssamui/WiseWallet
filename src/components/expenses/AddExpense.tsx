@@ -16,13 +16,20 @@ import {
   TextField,
 } from "@mui/material";
 import { useState } from "react";
+import ExpenseService from "../../api/ExpenseService";
 
-const AddExpense = () => {
+interface AddExpenseProps {
+  numExpenses: number;
+}
+
+const AddExpense = (props: AddExpenseProps) => {
   const [open, setOpen] = useState(false);
 
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
+
+  const service = new ExpenseService();
 
   const categories = [
     {
@@ -38,11 +45,21 @@ const AddExpense = () => {
   const handleAdd = () => {
     setAmount(parseFloat(amount).toFixed(2));
     if (name && amount && category) {
+      const expense = {
+        title: name,
+        type: category,
+        amount: parseFloat(amount),
+        createdAt: new Date().toDateString(),
+      };
+      console.log(props.numExpenses);
+      console.log(expense);
+      service.setExpense(props.numExpenses + 1, expense);
+      setOpen(false);
     }
   };
   return (
     <>
-      <IconButton onClick={() => setOpen(true)}>
+      <IconButton sx={{ marginTop: 1 }} onClick={() => setOpen(true)}>
         <AddIcon />
       </IconButton>
       <Dialog open={open} onClose={() => setOpen(false)}>

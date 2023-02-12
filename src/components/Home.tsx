@@ -12,6 +12,7 @@ import ExpenseService from "../api/ExpenseService";
 import Expenses from "./expenses/Expenses";
 
 export const color = "#B79bd6";
+export const darkerColor = "#8F73AF";
 
 const Home = () => {
   const incomeService = new IncomeService();
