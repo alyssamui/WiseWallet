@@ -15,7 +15,7 @@ import {
   MenuItem,
   TextField,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Dispatch, useEffect, useState } from "react";
 import ExpenseService from "../../api/ExpenseService";
 import dayjsConfig, { DATETIME_FORMAT } from "../../config/dayjsConfig";
 import CategoryService from "../../api/CategoryService";
@@ -24,6 +24,7 @@ import { DefaultCategories } from "../constants/DefaultCategories";
 
 interface AddExpenseProps {
   numExpenses: number;
+  setState: () => void;
 }
 
 const AddExpense = (props: AddExpenseProps) => {
@@ -41,11 +42,9 @@ const AddExpense = (props: AddExpenseProps) => {
     // INITIALIZE CATEGORIES
     const getData = async () => {
       let response = await categoryService.getCategories();
-      console.log("response", response);
       if (response) {
         DefaultCategories.forEach((c) => {
           if (!response.includes(c)) {
-            console.log("cate", c);
             response = [...response, c];
           }
         });
@@ -53,7 +52,6 @@ const AddExpense = (props: AddExpenseProps) => {
         setCategories(DefaultCategories);
       }
       setCategories(response);
-      console.log(categories);
     };
     getData();
   }, []);
@@ -68,10 +66,12 @@ const AddExpense = (props: AddExpenseProps) => {
         amount: parseFloat(amount),
         createdAt: dayjsConfig().format(),
       };
-      console.log(props.numExpenses);
-      console.log(expense);
       service.setExpense(props.numExpenses + 1, expense);
       setOpen(false);
+
+      // update parent
+      props.setState();
+      setAmount("");
     }
   };
   return (

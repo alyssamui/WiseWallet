@@ -14,11 +14,12 @@ const Expenses = () => {
   const [expenses, setExpenses] = useState<any>([]);
   const service = new ExpenseService();
 
+  const getData = async () => {
+    const response = await service.getAllExpenses();
+    setExpenses(response);
+  };
+
   useEffect(() => {
-    const getData = async () => {
-      const response = await service.getAllExpenses();
-      setExpenses(response);
-    };
     getData();
   }, []);
 
@@ -41,14 +42,17 @@ const Expenses = () => {
           }}
         >
           Expenses
-          <AddExpense numExpenses={expenses.length} />
+          <AddExpense
+            numExpenses={expenses.length > 0 ? expenses.at(-1).id + 1 : 1}
+            setState={getData}
+          />
         </Box>
       </Box>
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
-          padding: "10%",
+          padding: "5%",
           paddingBottom: "3%",
           paddingTop: 0,
         }}
@@ -58,6 +62,8 @@ const Expenses = () => {
               console.log(expense);
               return (
                 <ExpenseCard
+                  setState={getData}
+                  id={expense.id}
                   title={expense.title}
                   category={expense.category}
                   amount={expense.amount}
