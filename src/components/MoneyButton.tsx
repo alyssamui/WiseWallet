@@ -5,6 +5,7 @@ import WebFont from "webfontloader";
 import Settings from "./Settings";
 import "./Home.css";
 import { Function } from "@babel/types";
+import { color } from "./Home";
 
 interface MoneyButtonProps {
   message: string;
@@ -15,7 +16,13 @@ const MoneyButton = (props: MoneyButtonProps) => {
   return (
     <Button
       onClick={props.onClickFunc}
-      sx={{ padding: "3%", color: "white", ":hover": { bgcolor: "#b77373" } }}
+      sx={{
+        padding: "3%",
+        color: "white",
+        bgcolor: color,
+        boxShadow: 5,
+        ":hover": { bgcolor: "#b77373" },
+      }}
     >
       {props.message}
     </Button>

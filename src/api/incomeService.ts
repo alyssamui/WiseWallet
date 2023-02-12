@@ -64,6 +64,12 @@ class IncomeService {
 
     return data;
   }
+
+  async getAllIncome() {
+    const response = new Promise((resolve, reject) => {
+        chrome.storage.sync.get(null, )
+    })
+  }
 }
 
 export default IncomeService;
