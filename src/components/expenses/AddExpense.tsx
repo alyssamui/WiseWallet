@@ -42,12 +42,16 @@ const AddExpense = (props: AddExpenseProps) => {
     const getData = async () => {
       let response = await categoryService.getCategories();
       console.log("response", response);
-      DefaultCategories.forEach((c) => {
-        if (!response.includes(c)) {
-          console.log("cate", c);
-          response = [...response, c];
-        }
-      });
+      if (response) {
+        DefaultCategories.forEach((c) => {
+          if (!response.includes(c)) {
+            console.log("cate", c);
+            response = [...response, c];
+          }
+        });
+      } else {
+        setCategories(DefaultCategories);
+      }
       setCategories(response);
       console.log(categories);
     };
@@ -87,7 +91,6 @@ const AddExpense = (props: AddExpenseProps) => {
             type="text"
             fullWidth
             variant="standard"
-            error={!name}
             onChange={(e) => setName(e.target.value)}
           />
           <TextField
@@ -100,16 +103,23 @@ const AddExpense = (props: AddExpenseProps) => {
             type="text"
             fullWidth
             variant="standard"
-            error={!category}
             style={{ maxHeight: "50%" }}
             onChange={(e) => setCategory(e.target.value)}
-            // SelectProps={{MenuProps: {{PaperProps: {sx : {maxHeight: "50%"}}}}}}}
+            SelectProps={{
+              MenuProps: { PaperProps: { sx: { maxHeight: "50%" } } },
+            }}
           >
-            {categories.map((c) => (
-              <MenuItem key={c} value={c}>
-                {c}
-              </MenuItem>
-            ))}
+            {categories
+              ? categories.map((c) => (
+                  <MenuItem key={c} value={c}>
+                    {c}
+                  </MenuItem>
+                ))
+              : DefaultCategories.map((c) => (
+                  <MenuItem key={c} value={c}>
+                    {c}
+                  </MenuItem>
+                ))}
           </TextField>
           <TextField
             required
@@ -120,7 +130,6 @@ const AddExpense = (props: AddExpenseProps) => {
             value={amount}
             fullWidth
             variant="standard"
-            error={!amount}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">$</InputAdornment>

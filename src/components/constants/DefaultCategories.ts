@@ -7,5 +7,5 @@ export const DefaultCategories = [
     'MEDICAL',
     'INVESTING',
     'ENTERTAINMENT',
-    'MISC'
+    'MISC',
 ]
