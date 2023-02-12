@@ -56,6 +56,10 @@ const ExpenseCard = (props: ExpenseCardProps) => {
   const [category, setCategory] = useState(props.category);
   const [categories, setCategories] = useState<string[]>([]);
 
+  const [nameError, setNameError] = useState(false);
+  const [amountError, setAmountError] = useState(false);
+  const [categoryError, setCategoryError] = useState(false);
+
   const ref = useRef<any>();
   const service = new ExpenseService();
   const categoryService = new CategoryService();
@@ -79,15 +83,36 @@ const ExpenseCard = (props: ExpenseCardProps) => {
   }, []);
 
   const editExpenseCard = () => {
-    const expense: Expense = {
-      id: props.id,
-      title: name,
-      category: category,
-      amount: parseFloat(amount),
-      createdAt: props.date,
-    };
-    service.setExpense(props.id, expense);
-    props.setState();
+    setAmount(parseFloat(amount).toFixed(2));
+
+    if (!name || name.length > 20) {
+      setNameError(true);
+    }
+    if (!amount || amount.length > 20) {
+      setAmountError(true);
+    }
+    if (!category) {
+      setCategoryError(true);
+    }
+
+    if (
+      name &&
+      name.length <= 20 &&
+      amount &&
+      amount.length <= 20 &&
+      category
+    ) {
+      const expense: Expense = {
+        id: props.id,
+        title: name,
+        category: category,
+        amount: parseFloat(amount),
+        createdAt: props.date,
+      };
+      service.setExpense(props.id, expense);
+      props.setState();
+      setOpen(false);
+    }
   };
 
   const deleteExpense = () => {
@@ -117,6 +142,7 @@ const ExpenseCard = (props: ExpenseCardProps) => {
           <DialogContent>
             <TextField
               required
+              error={nameError}
               autoFocus
               defaultValue={props.title}
               margin="dense"
@@ -125,10 +151,12 @@ const ExpenseCard = (props: ExpenseCardProps) => {
               type="text"
               fullWidth
               variant="standard"
+              helperText="Please enter an expense name (max 20 characters long)"
               onChange={(e) => setName(e.target.value)}
             />
             <TextField
               required
+              error={categoryError}
               select
               defaultValue={props.category}
               helperText="Please select the category"
@@ -158,10 +186,12 @@ const ExpenseCard = (props: ExpenseCardProps) => {
             </TextField>
             <TextField
               required
+              error={amountError}
               margin="dense"
               id="amount"
               label="Amount"
               type="number"
+              helperText="Please enter an amount (max 20 characters long)"
               defaultValue={props.amount}
               value={amount}
               fullWidth
@@ -199,7 +229,6 @@ const ExpenseCard = (props: ExpenseCardProps) => {
               <Button
                 sx={{ color: color }}
                 onClick={() => {
-                  setOpen(false);
                   editExpenseCard();
                 }}
               >

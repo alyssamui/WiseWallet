@@ -77,17 +77,23 @@ const AddExpense = (props: AddExpenseProps) => {
   const handleAdd = async () => {
     setAmount(parseFloat(amount).toFixed(2));
 
-    if (!name) {
+    if (!name || name.length > 20) {
       setNameError(true);
     }
-    if (!amount) {
+    if (!amount || amount.length > 20) {
       setAmountError(true);
     }
     if (!category) {
       setCategoryError(true);
     }
 
-    if (name && amount && category) {
+    if (
+      name &&
+      name.length <= 20 &&
+      amount &&
+      amount.length <= 20 &&
+      category
+    ) {
       resetErrors();
       const expense: Expense = {
         id: props.nextId,
@@ -146,7 +152,7 @@ const AddExpense = (props: AddExpenseProps) => {
             required
             autoFocus
             margin="dense"
-            helperText={"Please enter an expense name"}
+            helperText={"Please enter an expense name (max 20 characters long)"}
             id="name"
             label="Expense"
             type="text"
@@ -192,7 +198,7 @@ const AddExpense = (props: AddExpenseProps) => {
             label="Amount"
             type="number"
             value={amount}
-            helperText={"Please enter an amount"}
+            helperText={"Please enter an amount (max 20 characters long)"}
             fullWidth
             variant="standard"
             InputProps={{
