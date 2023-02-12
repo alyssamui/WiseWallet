@@ -13,6 +13,7 @@ import {
   IconButton,
   InputAdornment,
   MenuItem,
+  Select,
   TextField,
   Tooltip,
 } from "@mui/material";
@@ -22,10 +23,12 @@ import dayjsConfig, { DATETIME_FORMAT } from "../../config/dayjsConfig";
 import CategoryService from "../../api/CategoryService";
 import { Expense } from "../../types/expense";
 import { DefaultCategories } from "../constants/DefaultCategories";
+import { months } from "../constants/Months";
 
 interface AddExpenseProps {
   numExpenses: number;
   setState: () => void;
+  setExpenseMonth: (n: number) => void;
 }
 
 const AddExpense = (props: AddExpenseProps) => {
@@ -85,8 +88,35 @@ const AddExpense = (props: AddExpenseProps) => {
   };
   return (
     <>
+      <Select
+        defaultValue={months[new Date().getMonth()]}
+        id="month"
+        label="Selected Month"
+        type="text"
+        fullWidth
+        variant="standard"
+        MenuProps={{ PaperProps: { sx: { maxHeight: "50%" } } }}
+        onChange={(e) => {
+          const monthNum = months.indexOf(e.target.value);
+          console.log("setmonthnum", monthNum);
+          props.setExpenseMonth(monthNum);
+        }}
+        sx={{
+          marginRight: -10,
+          maxWidth: "40%",
+        }}
+      >
+        {months.map((month) => (
+          <MenuItem key={month} value={month}>
+            {month}
+          </MenuItem>
+        ))}
+      </Select>
       <Tooltip title="Add an Expense" arrow>
-        <IconButton sx={{ marginTop: 1 }} onClick={() => setOpen(true)}>
+        <IconButton
+          sx={{ marginTop: 1, marginRight: -2 }}
+          onClick={() => setOpen(true)}
+        >
           <AddIcon />
         </IconButton>
       </Tooltip>
