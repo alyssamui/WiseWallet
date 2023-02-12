@@ -14,7 +14,7 @@ class FeatureFlagService {
   async toggle(flagName: string, state: boolean) {
     const payload = { [flagName]: state };
     const response = new Promise((resolve, reject) => {
-      chrome.storage.sync.set(payload, () => {
+      chrome.storage.local.set(payload, () => {
         if (chrome.runtime.lastError) {
           reject(`Failed to add Feature Flag: ${JSON.stringify(payload)}`);
         } else {
@@ -32,7 +32,7 @@ class FeatureFlagService {
 
   async getState(flag : string) {
     const response = new Promise((resolve, reject) => {
-      chrome.storage.sync.get([flag], (items) => {
+      chrome.storage.local.get([flag], (items) => {
         resolve(items);
       });
     });
