@@ -52,16 +52,16 @@ class ExpenseService {
       });
     });
 
-    let data = undefined;
-    response
+    let data = response
       .then((res) => {
         this.onSuccess(
           `Retrieved Expense<${expenseId}>: ${JSON.stringify(res)}`
         );
-        data = res;
+        return Object.values(res as object);
       })
       .catch((err) => {
         this.onError(err);
+        return undefined;
       });
 
     return data;

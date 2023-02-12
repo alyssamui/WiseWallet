@@ -40,17 +40,13 @@ class CategoryService {
       });
     });
 
-    let data = undefined;
     response
       .then((res) => {
         this.onSuccess(`Added Category ${category}`);
-        data = res;
       })
       .catch((err) => {
         this.onError(err);
       });
-
-    return data;
   }
 
   async getCategories() {
@@ -66,14 +62,14 @@ class CategoryService {
       });
     });
 
-    let data: Category[] = [];
-    response
+    const data = response
       .then((res: any) => {
         this.onSuccess(`Retrieved all categories: ${JSON.stringify(res)}`);
-        data = res[CATEGORY_PREFIX];
+        return res[CATEGORY_PREFIX];
       })
       .catch((err) => {
         this.onError(err);
+        return [];
       });
 
     return data;
@@ -101,22 +97,18 @@ class CategoryService {
             `Failed to delete Category ${category}. ${chrome.runtime.lastError}`
           );
         } else {
-          resolve(payload);
+          resolve(null);
         }
       });
     });
 
-    let data = undefined;
     response
       .then((res) => {
         this.onSuccess(`Deleted Category ${category}`);
-        data = res;
       })
       .catch((err) => {
         this.onError(err);
       });
-
-    return data;
   }
 }
 
