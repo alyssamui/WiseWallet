@@ -2,26 +2,27 @@
   "name": "Wise Wallet",
   "description": "Budgeting extension to help you save money and stop frivolous online purchases!",
   "version": "1.0",
-  "manifest_version": 2,
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
-  "browser_action": {
-    "default_popup": "index.html",
-    "default_title": "Open the popup"
+  "manifest_version": 3,
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; script-src-elem 'self' 'unsafe-inline'"
   },
   "icons": {
     "16": "logo192.png",
     "48": "logo192.png",
     "128": "logo192.png"
   },
-  "permissions": ["storage", "activeTab"],
+  "permissions": ["storage", "activeTab", "scripting", "tabs"],
   "background": {
-    "service-worker": "background.ts"
+    "service-worker": "background.js"
   },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["evil.ts"]
+      "js": ["evil.js"]
     }
   ],
-  "optional_permissions": ["<all_urls>"]
+  "action":{
+    "default_popup": "index.html",
+    "default_title": "test"
+  }
 }

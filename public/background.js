@@ -4,4 +4,15 @@ chrome.runtime.onMessage.addListener((msg, sender) => {
       // Enable the page-action for the requesting tab.
       chrome.pageAction.show(sender.tab.id);
     }
-  });
+    console.log("test1");
+});
+console.log("test2");
+
+// chrome.action.onClicked.addListener((tab : any) => {
+//   chrome.scripting.executeScript({
+//     target: {tabId: tab.id},
+//     files: ['evil.ts']
+//   });
+// });
+
+export {}
