@@ -57,7 +57,7 @@ const ExpenseCard = (props: ExpenseCardProps) => {
           }}
           onClick={editExpenseCard}
         >
-          <Edit fontSize="small" />
+          <Edit sx={{ fontSize: "1rem" }} />
         </IconButton>
         <Box sx={displayStyle}>
           <Box sx={{ fontWeight: "500" }}>{props.title}</Box>
