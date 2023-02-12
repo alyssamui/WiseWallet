@@ -1,4 +1,4 @@
-import { Box } from "@mui/system";
+import { Box, maxHeight } from "@mui/system";
 import ExpenseCard from "./ExpenseCard";
 import { color } from "../Home";
 import MoneyButton from "../MoneyButton";
@@ -15,8 +15,11 @@ import {
   MenuItem,
   TextField,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ExpenseService from "../../api/ExpenseService";
+import CategoryService from "../../api/CategoryService";
+import { Expense } from "../../types/expense";
+import { DefaultCategories } from "../constants/DefaultCategories";
 
 interface AddExpenseProps {
   numExpenses: number;
@@ -28,26 +31,35 @@ const AddExpense = (props: AddExpenseProps) => {
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
+  const [categories, setCategories] = useState<string[]>([]);
 
   const service = new ExpenseService();
+  const categoryService = new CategoryService();
 
-  const categories = [
-    {
-      value: "food",
-      label: "Food",
-    },
-    {
-      value: "misc",
-      label: "Misc",
-    },
-  ];
+  useEffect(() => {
+    // INITIALIZE CATEGORIES
+    const getData = async () => {
+      let response = await categoryService.getCategories();
+      console.log("response", response);
+      DefaultCategories.forEach((c) => {
+        if (!response.includes(c)) {
+          console.log("cate", c);
+          response = [...response, c];
+        }
+      });
+      setCategories(response);
+      console.log(categories);
+    };
+    getData();
+  }, []);
 
   const handleAdd = () => {
     setAmount(parseFloat(amount).toFixed(2));
     if (name && amount && category) {
-      const expense = {
+      const expense: Expense = {
+        id: props.numExpenses + 1,
         title: name,
-        type: category,
+        category: category,
         amount: parseFloat(amount),
         createdAt: new Date().toDateString(),
       };
@@ -88,11 +100,13 @@ const AddExpense = (props: AddExpenseProps) => {
             fullWidth
             variant="standard"
             error={!category}
+            style={{ maxHeight: "50%" }}
             onChange={(e) => setCategory(e.target.value)}
+            // SelectProps={{MenuProps: {{PaperProps: {sx : {maxHeight: "50%"}}}}}}}
           >
-            {categories.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
+            {categories.map((c) => (
+              <MenuItem key={c} value={c}>
+                {c}
               </MenuItem>
             ))}
           </TextField>

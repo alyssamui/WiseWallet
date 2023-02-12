@@ -1,9 +1,8 @@
-import { Category } from "./category";
 
 export interface Expense {
   id: number;
   title: string;
-  category: Category;
+  category: string;
   amount: number;
   createdAt?: string;
 }
