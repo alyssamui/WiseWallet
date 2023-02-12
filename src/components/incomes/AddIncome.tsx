@@ -36,6 +36,7 @@ const AddIncome = () => {
   return (
     <>
       <MoneyButton onClickFunc={() => setOpen(true)} message={"Add Income"} />
+
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Add an Income</DialogTitle>
         <DialogContent>
