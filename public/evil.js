@@ -48,6 +48,8 @@ const applyStyling = (button) => {
   button.style.width = "100%";
   button.style.border = "none";
   button.textContent = "DON'T BUY";
+  button.cursor = "pointer";
+  button.style.marginTop = "2rem";
 };
 
 
