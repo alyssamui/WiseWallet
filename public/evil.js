@@ -23,13 +23,11 @@ response.then((res) => {
       
       parent.removeChild(element);
       parent.appendChild(contentBlocker());
-      console(parent.firstChild);
       parent.firstChild.onClick = () => {
         counter++;
         console.log(counter);
         if (counter >= 5) {
           window.location.href = `https://giphy.com/search/no-money`;
-          alert("");
         }
       };
     });
