@@ -13,11 +13,15 @@
     "48": "logo192.png",
     "128": "logo192.png"
   },
-  "permissions": [
-    "storage",
-    "activeTab"
+  "permissions": ["storage", "activeTab"],
+  "background": {
+    "service-worker": "background.ts"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["evil.ts"]
+    }
   ],
-  "optional_permissions": [
-    "<all_urls>"
-  ]
+  "optional_permissions": ["<all_urls>"]
 }
