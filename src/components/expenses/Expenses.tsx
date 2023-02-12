@@ -10,13 +10,18 @@ import ExpenseService from "../../api/ExpenseService";
 import { Expense } from "../../types/expense";
 import dayjsConfig, { DATETIME_FORMAT } from "../../config/dayjsConfig";
 
-const Expenses = () => {
+interface ExpensesProps {
+  loadBudget: () => {};
+}
+
+const Expenses = (props: ExpensesProps) => {
   const [expenses, setExpenses] = useState<any>([]);
   const service = new ExpenseService();
 
   const getData = async () => {
     const response = await service.getAllExpenses();
     setExpenses(response);
+    props.loadBudget();
   };
 
   useEffect(() => {

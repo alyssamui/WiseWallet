@@ -3,19 +3,12 @@ import React, { useEffect, useState } from "react";
 import BudgetService from "../../api/BudgetService";
 import { color } from "../Home";
 
-const Budget = () => {
-  const service = new BudgetService();
-  const [currBudget, setCurrBudget] = useState(0);
+interface BudgetProps {
+  loadBudget: () => {};
+  currBudget: number;
+}
 
-  const loadBudget = async () => {
-    const budgetLeft = await service.calculateCurrentBudgetLeft();
-    setCurrBudget(budgetLeft);
-  };
-
-  useEffect(() => {
-    loadBudget();
-  }, []);
-
+const Budget = (props: BudgetProps) => {
   return (
     <Box
       sx={{
@@ -32,7 +25,7 @@ const Budget = () => {
       }}
     >
       <Box sx={{ fontSize: 25, color: color }}>Current Budget:</Box>
-      <Box sx={{ fontSize: 20, color: color }}>${currBudget}</Box>
+      <Box sx={{ fontSize: 20, color: color }}>${props.currBudget}</Box>
     </Box>
   );
 };

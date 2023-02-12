@@ -18,7 +18,11 @@ import { useState } from "react";
 
 import BudgetService from "../../api/BudgetService";
 
-const EditBudget = () => {
+interface EditBudgetProps {
+  loadBudget: () => {};
+}
+
+const EditBudget = (props: EditBudgetProps) => {
   const [open, setOpen] = useState(false);
 
   const [budget, setBudget] = useState("");
@@ -28,6 +32,7 @@ const EditBudget = () => {
   const handleEdit = () => {
     service.editBudget(parseFloat(budget));
     setOpen(false);
+    props.loadBudget();
   };
 
   return (

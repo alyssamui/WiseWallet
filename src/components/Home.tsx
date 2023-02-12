@@ -1,5 +1,5 @@
 import { Box, Button, IconButton } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { goTo } from "react-chrome-extension-router";
 import WebFont from "webfontloader";
 import Settings from "./Settings";
@@ -14,6 +14,7 @@ import AddExpense from "./expenses/AddExpense";
 import AddIncome from "./incomes/AddIncome";
 import EditBudget from "./budget/EditBudget";
 import Budget from "./budget/Budget";
+import BudgetService from "../api/BudgetService";
 
 export const color = "#B79bd6";
 export const darkerColor = "#8F73AF";
@@ -22,12 +23,26 @@ const Home = () => {
   const incomeService = new IncomeService();
   const expenseService = new ExpenseService();
 
+  const service = new BudgetService();
+  const [currBudget, setCurrBudget] = useState(0);
+
   useEffect(() => {
     WebFont.load({
       google: {
         families: ["Ubuntu"],
       },
     });
+  }, []);
+
+  const loadBudget = async () => {
+    const budgetLeft = await service.calculateCurrentBudgetLeft();
+    if (typeof budgetLeft === "number") {
+      setCurrBudget(budgetLeft);
+    }
+  };
+
+  useEffect(() => {
+    loadBudget();
   }, []);
 
   return (
@@ -65,7 +80,7 @@ const Home = () => {
               <SettingsIcon />
             </IconButton>
           </Box>
-          <Budget />
+          <Budget loadBudget={loadBudget} currBudget={currBudget} />
           <Box
             sx={{
               display: "flex",
@@ -76,11 +91,11 @@ const Home = () => {
             }}
           >
             <AddIncome />
-            <EditBudget />
+            <EditBudget loadBudget={loadBudget} />
           </Box>
         </Box>
       </Box>
-      <Expenses />
+      <Expenses loadBudget={loadBudget} />
     </Box>
   );
 };
