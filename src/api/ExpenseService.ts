@@ -113,11 +113,15 @@ class ExpenseService {
 
   // expects month as a numerical 1-12
   async getExpensesByMonth(month: number) {
+    console.log("cURRENT MONTH", month)
     const expenses = await this.getAllExpenses();
     const filteredExpenses = (expenses as Expense[]).filter((expense) => {
+      console.log("created at", expense.createdAt)
       const expenseMonth = dayjsConfig(expense.createdAt).month();
+      console.log("expense month", expenseMonth)
       return month === expenseMonth;
     });
+    console.log("FILT", filteredExpenses)
     return filteredExpenses.sort((e1, e2) => {
       const dayjsInst = dayjsConfig(e1.createdAt);
       if (dayjsInst.isBefore(e2.createdAt)) {

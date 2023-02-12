@@ -28,6 +28,7 @@ import { months } from "../constants/Months";
 interface AddExpenseProps {
   numExpenses: number;
   setState: () => void;
+  setExpenseMonth: (n: number) => void;
 }
 
 const AddExpense = (props: AddExpenseProps) => {
@@ -92,11 +93,18 @@ const AddExpense = (props: AddExpenseProps) => {
         id="month"
         label="Selected Month"
         type="text"
-        autoWidth
+        fullWidth
         variant="standard"
         MenuProps={{ PaperProps: { sx: { maxHeight: "50%" } } }}
-        onChange={(e) => {}}
-        sx={{ marginRight: -3 }}
+        onChange={(e) => {
+          const monthNum = months.indexOf(e.target.value);
+          console.log("setmonthnum", monthNum);
+          props.setExpenseMonth(monthNum);
+        }}
+        sx={{
+          marginRight: -10,
+          maxWidth: "40%",
+        }}
       >
         {months.map((month) => (
           <MenuItem key={month} value={month}>
