@@ -21,7 +21,7 @@ const Expenses = (props: ExpensesProps) => {
   const [expenseMonth, setExpenseMonth] = useState("");
 
   const getData = async () => {
-    const response = await service.getCurrentExpenses();
+    const response = await service.getExpensesByMonth(dayjsConfig().month());
     setExpenses(response);
     props.loadBudget();
   };
@@ -29,16 +29,6 @@ const Expenses = (props: ExpensesProps) => {
   useEffect(() => {
     getData();
   }, []);
-
-  const getMaxId = (): number => {
-    let id = 0;
-    expenses.forEach((expense: Expense) => {
-      if (expense.id > id) {
-        id = expense.id;
-      }
-    });
-    return id;
-  };
 
   const month = months[new Date().getMonth()];
 
@@ -63,10 +53,7 @@ const Expenses = (props: ExpensesProps) => {
           }}
         >
           {month} Expenses
-          <AddExpense
-            numExpenses={expenses.length > 0 ? getMaxId() + 1 : 1}
-            setState={getData}
-          />
+          <AddExpense numExpenses={expenses.length} setState={getData} />
         </Box>
       </Box>
       <Box
