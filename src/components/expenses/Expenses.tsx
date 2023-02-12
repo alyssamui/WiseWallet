@@ -57,6 +57,7 @@ const Expenses = () => {
               console.log(expense);
               return (
                 <ExpenseCard
+                  id={expense.id}
                   title={expense.title}
                   category={expense.category}
                   amount={expense.amount}

@@ -52,7 +52,6 @@ const AddExpense = (props: AddExpenseProps) => {
         setCategories(DefaultCategories);
       }
       setCategories(response);
-      console.log(categories);
     };
     getData();
   }, []);
