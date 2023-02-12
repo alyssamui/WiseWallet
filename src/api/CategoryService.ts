@@ -78,7 +78,9 @@ class CategoryService {
   async deleteCategory(category: string) {
     // get all current categories and then update the stored list with the new category
     const categories = await this.getCategories();
-    const deleteIdx = categories.findIndex((c) => c.title === category);
+    const deleteIdx = categories.findIndex(
+      (c: Category) => c.title === category
+    );
     if (deleteIdx > -1) {
       categories.splice(deleteIdx, 1);
     } else {
