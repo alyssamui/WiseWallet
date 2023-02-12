@@ -1,3 +1,4 @@
+import dayjsConfig from "../config/dayjsConfig";
 import { Expense } from "../types/expense";
 
 const EXPENSE_ID_PREFIX = "expense_";
@@ -80,7 +81,7 @@ class ExpenseService {
       });
     });
 
-    const data = response
+    const data = await response
       .then((res) => {
         const expenses: Expense[] = [];
         Object.entries(res as object).forEach(([key, value]) => {
@@ -108,6 +109,24 @@ class ExpenseService {
       });
 
     return data;
+  }
+
+  async getCurrentExpenses() {
+    const expenses = await this.getAllExpenses();
+    const currMonth = new dayjsConfig.Dayjs().month();
+    const filteredExpenses = (expenses as Expense[]).filter((expense) => {
+      const expenseMonth = new dayjsConfig.Dayjs(expense.createdAt).month();
+      return currMonth === expenseMonth;
+    });
+    return filteredExpenses.sort((e1, e2) => {
+      const dayjsInst = new dayjsConfig.Dayjs(e1.createdAt);
+      if (dayjsInst.isBefore(e2.createdAt)) {
+        return -1;
+      } else if (dayjsInst.isSame(e2.createdAt)) {
+        return 0;
+      }
+      return 1;
+    });
   }
 
   async deleteExpense(id: number) {

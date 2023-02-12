@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import ExpenseService from "../../api/ExpenseService";
+import dayjsConfig, { DATETIME_FORMAT } from "../../config/dayjsConfig";
 import CategoryService from "../../api/CategoryService";
 import { Expense } from "../../types/expense";
 import { DefaultCategories } from "../constants/DefaultCategories";
@@ -65,7 +66,7 @@ const AddExpense = (props: AddExpenseProps) => {
         title: name,
         category: category,
         amount: parseFloat(amount),
-        createdAt: new Date().toDateString(),
+        createdAt: new dayjsConfig.Dayjs().format(),
       };
       console.log(props.numExpenses);
       console.log(expense);
