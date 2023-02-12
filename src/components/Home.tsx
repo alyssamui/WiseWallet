@@ -10,6 +10,8 @@ import IncomeService from "../api/incomeService";
 import { PayType } from "../types/payType";
 import ExpenseService from "../api/ExpenseService";
 import Expenses from "./expenses/Expenses";
+import AddExpense from "./expenses/AddExpense";
+import AddIncome from "./incomes/AddIncome";
 
 export const color = "#B79bd6";
 export const darkerColor = "#8F73AF";
@@ -87,7 +89,7 @@ const Home = () => {
               padding: "5%",
             }}
           >
-            <MoneyButton onClickFunc={() => {}} message={"Add Income"} />
+            <AddIncome/>
             <MoneyButton onClickFunc={() => {}} message={"Edit Budget"} />
           </Box>
         </Box>
