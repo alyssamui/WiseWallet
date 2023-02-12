@@ -13,13 +13,13 @@ class BudgetService {
     console.log(error);
   }
 
-  async calculateCurrentBudget() {
+  async calculateCurrentBudgetLeft() {
     const budget = await this.getBudget();
     const service = new ExpenseService();
     const expenses = await service.getAllExpenses();
     const currMonth = dayjsConfig().month();
     const filteredExpenses = (expenses as Expense[]).filter((expense) => {
-      const expenseMonth = new dayjsConfig.Dayjs(expense.createdAt).month();
+      const expenseMonth = dayjsConfig(expense.createdAt).month();
       return currMonth === expenseMonth;
     });
     const costs = filteredExpenses.reduce(
