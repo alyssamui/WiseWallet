@@ -31,14 +31,21 @@ const AddIncome = () => {
 
   const service = new IncomeService();
 
+<<<<<<< HEAD
   const handleAdd = () => {
     // service.
   };
+=======
+  const handleAdd = () => {};
+>>>>>>> main
 
   return (
     <>
       <MoneyButton onClickFunc={() => setOpen(true)} message={"Add Income"} />
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Add an Income</DialogTitle>
         <DialogContent>

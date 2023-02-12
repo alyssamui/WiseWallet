@@ -31,17 +31,20 @@ const EditBudget = (props: EditBudgetProps) => {
   const service = new BudgetService();
 
   const handleEdit = () => {
-    service.editBudget(parseFloat(budget));
+    service.editBudget(Number(parseFloat(budget).toFixed(2)));
     setOpen(false);
     props.loadBudget();
   };
 
   return (
     <>
-      <MoneyButton onClickFunc={() => setOpen(true)} message={"Edit Budget"} />
+      <MoneyButton
+        onClickFunc={() => setOpen(true)}
+        message={"Edit Spending Limit"}
+      />
 
       <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle>Edit Budget</DialogTitle>
+        <DialogTitle>Edit Spending Limit</DialogTitle>
         <DialogContent>
           <TextField
             required
@@ -61,7 +64,9 @@ const EditBudget = (props: EditBudgetProps) => {
             inputProps={{
               step: 0.5,
             }}
-            onChange={(e) => setBudget(e.target.value)}
+            onChange={(e) => {
+              setBudget(e.target.value);
+            }}
           />
         </DialogContent>
         <DialogActions>

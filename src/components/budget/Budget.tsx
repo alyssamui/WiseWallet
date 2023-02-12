@@ -29,9 +29,14 @@ const Budget = (props: BudgetProps) => {
         fontWeight: "bold",
       }}
     >
-      <Box sx={{ fontSize: 30 }}>Current Budget:</Box>
-      <Box sx={{ fontSize: 30 }}>${props.currBudget}</Box>
-      <Box sx={{ fontSize: 20 }}>Budget Limit: ${props.budgetLimit}</Box>
+      <Box sx={{ fontSize: 30 }}>Remaining Budget:</Box>
+      <Box sx={{ fontSize: 30 }}>
+        $
+        {isNaN(props.currBudget)
+          ? 0
+          : parseFloat(props.currBudget.toString()).toFixed(2)}
+      </Box>
+      <Box sx={{ fontSize: 20 }}>Spending Limit: ${props.budgetLimit}</Box>
     </Box>
   );
 };

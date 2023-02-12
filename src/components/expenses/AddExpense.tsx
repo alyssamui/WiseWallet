@@ -29,16 +29,21 @@ interface AddExpenseProps {
   numExpenses: number;
   setState: () => void;
   setExpenseMonth: (n: number) => void;
+  nextId: number;
+  setNextId: (n: number) => void;
 }
 
 const AddExpense = (props: AddExpenseProps) => {
   const [open, setOpen] = useState(false);
 
-  const [nextId, setNextId] = useState(-1);
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
   const [categories, setCategories] = useState<string[]>([]);
+
+  const [nameError, setNameError] = useState(false);
+  const [amountError, setAmountError] = useState(false);
+  const [categoryError, setCategoryError] = useState(false);
 
   const service = new ExpenseService();
   const categoryService = new CategoryService();
@@ -58,32 +63,46 @@ const AddExpense = (props: AddExpenseProps) => {
       }
       setCategories(response);
 
-      setNextId(await service.getNextId());
+      props.setNextId(await service.getNextId());
     };
     getData();
   }, []);
 
-  useEffect(() => {
-    console.log(nextId);
-  }, [nextId]);
+  const resetErrors = () => {
+    setNameError(false);
+    setAmountError(false);
+    setCategoryError(false);
+  };
 
-  const handleAdd = () => {
+  const handleAdd = async () => {
     setAmount(parseFloat(amount).toFixed(2));
+
+    if (!name) {
+      setNameError(true);
+    }
+    if (!amount) {
+      setAmountError(true);
+    }
+    if (!category) {
+      setCategoryError(true);
+    }
+
     if (name && amount && category) {
+      resetErrors();
       const expense: Expense = {
-        id: nextId,
+        id: props.nextId,
         title: name,
         category: category,
         amount: parseFloat(amount),
         createdAt: dayjsConfig().format(),
       };
-      service.setExpense(props.numExpenses + 1, expense);
+      await service.setExpense(props.numExpenses, expense);
       setOpen(false);
 
       // update parent
-      props.setState();
       setAmount("");
-      setNextId(nextId + 1);
+      props.setNextId(props.nextId + 1);
+      props.setState();
     }
   };
   return (
@@ -112,7 +131,7 @@ const AddExpense = (props: AddExpenseProps) => {
           </MenuItem>
         ))}
       </Select>
-      <Tooltip title="Add an Expense" arrow>
+      <Tooltip title="Add an Expense" arrow placement="top">
         <IconButton
           sx={{ marginTop: 1, marginRight: -2 }}
           onClick={() => setOpen(true)}
@@ -127,15 +146,18 @@ const AddExpense = (props: AddExpenseProps) => {
             required
             autoFocus
             margin="dense"
+            helperText={"Please enter an expense name"}
             id="name"
             label="Expense"
             type="text"
             fullWidth
             variant="standard"
             onChange={(e) => setName(e.target.value)}
+            error={nameError}
           />
           <TextField
             required
+            error={categoryError}
             select
             helperText="Please select the category"
             margin="dense"
@@ -163,12 +185,14 @@ const AddExpense = (props: AddExpenseProps) => {
                 ))}
           </TextField>
           <TextField
+            error={amountError}
             required
             margin="dense"
             id="amount"
             label="Amount"
             type="number"
             value={amount}
+            helperText={"Please enter an amount"}
             fullWidth
             variant="standard"
             InputProps={{
