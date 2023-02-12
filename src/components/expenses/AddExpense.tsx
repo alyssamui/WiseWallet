@@ -66,7 +66,7 @@ const AddExpense = (props: AddExpenseProps) => {
         title: name,
         category: category,
         amount: parseFloat(amount),
-        createdAt: new dayjsConfig.Dayjs().format(),
+        createdAt: dayjsConfig().format(),
       };
       console.log(props.numExpenses);
       console.log(expense);

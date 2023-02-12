@@ -61,9 +61,7 @@ const Expenses = () => {
                   title={expense.title}
                   category={expense.category}
                   amount={expense.amount}
-                  date={new dayjsConfig.Dayjs(expense.createdAt).format(
-                    DATETIME_FORMAT
-                  )}
+                  date={dayjsConfig(expense.createdAt).format(DATETIME_FORMAT)}
                 />
               );
             })
