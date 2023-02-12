@@ -20,12 +20,13 @@ import BudgetService from "../../api/BudgetService";
 
 interface EditBudgetProps {
   loadBudget: () => {};
+  budgetLimit: number;
 }
 
 const EditBudget = (props: EditBudgetProps) => {
   const [open, setOpen] = useState(false);
 
-  const [budget, setBudget] = useState("");
+  const [budget, setBudget] = useState(props.budgetLimit.toString());
 
   const service = new BudgetService();
 

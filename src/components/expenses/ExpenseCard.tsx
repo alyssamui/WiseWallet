@@ -34,6 +34,7 @@ const expenseCardStyle = {
   background: "#EEEAEC",
   padding: "5%",
   margin: "5%",
+  marginBottom: "3%",
   borderRadius: "15px",
   boxShadow: 10,
   fontSize: 15,
