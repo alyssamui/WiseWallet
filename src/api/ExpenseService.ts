@@ -14,10 +14,15 @@ class ExpenseService {
 
   // POST/PUT
   async setExpense(id: number, data: Expense) {
-    const expenseId = EXPENSE_ID_PREFIX + id;
+    let expenseId = EXPENSE_ID_PREFIX + id;
+    console.log(id)
+    if (id === -1) {
+      expenseId =  EXPENSE_ID_PREFIX + (await this.getNextId()).toString()
+    }
     const payload = {
       [expenseId]: data,
     };
+    console.log(payload);
 
     const response = new Promise((resolve, reject) => {
       chrome.storage.local.set(payload, () => {
@@ -97,7 +102,7 @@ class ExpenseService {
           : this.onSuccess(
               `Retrieved all expenses: ${expenses
                 .map(
-                  (expense) => `Expense<${Object.keys(expense as object)[0]}>`
+                  (expense) => `Expense<${expense.id}>`
                 )
                 .toString()}`
             );
@@ -135,7 +140,7 @@ class ExpenseService {
 
   async getNextId() {
     const expenses = await this.getAllExpenses();
-    return expenses.sort((e1, e2) => e1.id - e2.id)[expenses.length - 1].id + 1;
+    return expenses.length > 0 ? expenses.sort((e1, e2) => e1.id - e2.id)[expenses.length - 1].id + 1 : 1;
   }
 
   async deleteExpense(id: number) {
@@ -152,6 +157,8 @@ class ExpenseService {
         }
       });
     });
+
+    console.log(chrome.storage.local.get())
 
     response
       .then((res) => {
@@ -179,6 +186,8 @@ class ExpenseService {
         }
       });
     });
+
+    console.log("store", chrome.storage.local.get())
 
     response
       .then((res) => {

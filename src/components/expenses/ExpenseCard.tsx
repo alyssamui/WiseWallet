@@ -26,6 +26,8 @@ interface ExpenseCardProps {
   amount: number;
   date: string;
   setState: () => void;
+  nextId: number;
+  setNextId: (n: number) => void;
 }
 
 const expenseCardStyle = {
@@ -91,6 +93,7 @@ const ExpenseCard = (props: ExpenseCardProps) => {
   const deleteExpense = () => {
     setOpen(false);
     service.deleteExpense(props.id);
+    props.setNextId(props.nextId - 1);
     props.setState();
   };
 

@@ -30,24 +30,12 @@ const AddIncome = () => {
   const [payType, setPayType] = useState("WEEKLY");
 
   const service = new IncomeService();
-<<<<<<< HEAD
-
-  const handleAdd = () => {
-    // service.
-  };
-
-  return (
-    <>
-      <MoneyButton onClickFunc={() => setOpen(true)} message={"Add Income"} />
-
-=======
 
   const handleAdd = () => {};
 
   return (
     <>
       <MoneyButton onClickFunc={() => setOpen(true)} message={"Add Income"} />
->>>>>>> main
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Add an Income</DialogTitle>
         <DialogContent>
