@@ -67,7 +67,11 @@ class IncomeService {
 
   async getAllIncome() {
     const response = new Promise((resolve, reject) => {
-        chrome.storage.sync.get(null, )
+        chrome.storage.sync.get(null, (items) => {
+            if(chrome.runtime.lastError) {
+                
+            }
+        })
     })
   }
 }

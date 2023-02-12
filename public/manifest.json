@@ -2,18 +2,16 @@
   "name": "Hello Extensions",
   "description": "Base Level Extension",
   "version": "1.0",
-  "manifest_version": 2,
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
-  "browser_action": {
-    "default_popup": "index.html",
-    "default_title": "Open the popup"
+  "manifest_version": 3,
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; script-src-elem 'self' 'unsafe-inline'"
   },
   "icons": {
     "16": "logo192.png",
     "48": "logo192.png",
     "128": "logo192.png"
   },
-  "permissions": ["storage", "activeTab"],
+  "permissions": ["storage", "activeTab", "scripting"],
   "background": {
     "service-worker": "background.ts"
   },
@@ -23,5 +21,8 @@
       "js": ["evil.ts"]
     }
   ],
-  "optional_permissions": ["<all_urls>"]
+  "action":{
+    "default_popup": "index.html",
+    "default_title": "test"
+  }
 }

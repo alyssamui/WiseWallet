@@ -25,19 +25,17 @@ const AddIncome = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
-  const [payType, setPayType] = useState("WEEKLY")
+  const [payType, setPayType] = useState("WEEKLY");
 
-
-    const service = new IncomeService();
+  const service = new IncomeService();
 
   const handleAdd = () => {
-
+    // service.
   };
 
-  
   return (
     <>
-      <MoneyButton onClickFunc={() => setOpen(true)} message={"Add Income"}/>
+      <MoneyButton onClickFunc={() => setOpen(true)} message={"Add Income"} />
 
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Add an Income</DialogTitle>
@@ -77,16 +75,17 @@ const AddIncome = () => {
             variant="standard"
             error={!payType}
             onChange={(e) => {
-                setPayType(e.target.value);
-                console.log(Object.keys(PayType));
+              setPayType(e.target.value);
+              console.log(Object.keys(PayType));
             }}
           >
-            {Object.values(PayType).filter(
-                (key : any) => isNaN(key)).map(key => (
+            {Object.values(PayType)
+              .filter((key: any) => isNaN(key))
+              .map((key) => (
                 <MenuItem key={key} value={key}>
-                    {key}
+                  {key}
                 </MenuItem>
-            ))}
+              ))}
           </TextField>
           <TextField
             required
@@ -119,4 +118,3 @@ const AddIncome = () => {
 };
 
 export default AddIncome;
-
