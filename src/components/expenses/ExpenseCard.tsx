@@ -25,6 +25,7 @@ interface ExpenseCardProps {
   category: string;
   amount: number;
   date: string;
+  setState: () => void;
 }
 
 const expenseCardStyle = {
@@ -83,6 +84,13 @@ const ExpenseCard = (props: ExpenseCardProps) => {
       createdAt: props.date,
     };
     service.setExpense(props.id, expense);
+    props.setState();
+  };
+
+  const deleteExpense = () => {
+    setOpen(false);
+    service.deleteExpense(props.id);
+    props.setState();
   };
 
   return (
@@ -166,15 +174,34 @@ const ExpenseCard = (props: ExpenseCardProps) => {
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => setOpen(false)}>Cancel</Button>
-            <Button
-              onClick={() => {
-                setOpen(false);
-                editExpenseCard();
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-evenly",
+                alignItems: "center",
               }}
             >
-              Edit
-            </Button>
+              <Button
+                sx={{
+                  color: "red",
+                }}
+                onClick={deleteExpense}
+              >
+                Delete Expense
+              </Button>
+              <Button sx={{ color: color }} onClick={() => setOpen(false)}>
+                Cancel
+              </Button>
+              <Button
+                sx={{ color: color }}
+                onClick={() => {
+                  setOpen(false);
+                  editExpenseCard();
+                }}
+              >
+                Edit
+              </Button>
+            </Box>
           </DialogActions>
         </Dialog>
         <Box sx={displayStyle}>
@@ -182,7 +209,7 @@ const ExpenseCard = (props: ExpenseCardProps) => {
           <Box>${props.amount}</Box>
         </Box>
         <Box sx={displayStyle}>
-          <Box>Category: {props.category}</Box>
+          <Box>{props.category}</Box>
           <Box>{props.date}</Box>
         </Box>
       </Box>
