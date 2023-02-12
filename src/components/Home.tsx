@@ -14,6 +14,7 @@ import AddExpense from "./expenses/AddExpense";
 import AddIncome from "./incomes/AddIncome";
 
 export const color = "#B79bd6";
+export const darkerColor = "#8F73AF";
 
 const Home = () => {
   const incomeService = new IncomeService();

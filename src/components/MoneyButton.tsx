@@ -5,7 +5,7 @@ import WebFont from "webfontloader";
 import Settings from "./Settings";
 import "./Home.css";
 import { Function } from "@babel/types";
-import { color } from "./Home";
+import { color, darkerColor } from "./Home";
 
 interface MoneyButtonProps {
   message: string;
@@ -21,7 +21,7 @@ const MoneyButton = (props: MoneyButtonProps) => {
         color: "white",
         bgcolor: color,
         boxShadow: 5,
-        ":hover": { bgcolor: "#b77373" },
+        ":hover": { bgcolor: darkerColor },
       }}
     >
       {props.message}

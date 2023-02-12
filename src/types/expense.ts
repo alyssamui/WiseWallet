@@ -5,5 +5,5 @@ export interface Expense {
   title: string;
   category: Category;
   amount: number;
-  createdAt?: Date;
+  createdAt?: string;
 }
