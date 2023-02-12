@@ -25,6 +25,7 @@ const Home = () => {
 
   const service = new BudgetService();
   const [currBudget, setCurrBudget] = useState(0);
+  const [budgetLimit, setBudgetLimit] = useState(0);
 
   useEffect(() => {
     WebFont.load({
@@ -36,8 +37,12 @@ const Home = () => {
 
   const loadBudget = async () => {
     const budgetLeft = await service.calculateCurrentBudgetLeft();
+    const budgetLimit = await service.getBudget();
     if (typeof budgetLeft === "number") {
       setCurrBudget(budgetLeft);
+    }
+    if (typeof budgetLimit === "number") {
+      setBudgetLimit(budgetLimit);
     }
   };
 
@@ -62,7 +67,7 @@ const Home = () => {
           className="top"
           sx={{
             flexDirection: "column",
-            background: color,
+            background: `linear-gradient(to right, ${color} , ${darkerColor})`,
             borderBottomRightRadius: "3rem",
             position: "sticky",
           }}
@@ -80,7 +85,11 @@ const Home = () => {
               <SettingsIcon />
             </IconButton>
           </Box>
-          <Budget loadBudget={loadBudget} currBudget={currBudget} />
+          <Budget
+            loadBudget={loadBudget}
+            currBudget={currBudget}
+            budgetLimit={budgetLimit}
+          />
           <Box
             sx={{
               display: "flex",
@@ -91,7 +100,7 @@ const Home = () => {
             }}
           >
             <AddIncome />
-            <EditBudget loadBudget={loadBudget} />
+            <EditBudget loadBudget={loadBudget} budgetLimit={budgetLimit} />
           </Box>
         </Box>
       </Box>
