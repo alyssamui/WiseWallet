@@ -14,6 +14,7 @@ import {
   InputAdornment,
   MenuItem,
   TextField,
+  Tooltip,
 } from "@mui/material";
 import { Dispatch, useEffect, useState } from "react";
 import ExpenseService from "../../api/ExpenseService";
@@ -76,9 +77,11 @@ const AddExpense = (props: AddExpenseProps) => {
   };
   return (
     <>
-      <IconButton sx={{ marginTop: 1 }} onClick={() => setOpen(true)}>
-        <AddIcon />
-      </IconButton>
+      <Tooltip title="Add an Expense" arrow>
+        <IconButton sx={{ marginTop: 1 }} onClick={() => setOpen(true)}>
+          <AddIcon />
+        </IconButton>
+      </Tooltip>
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Add an Expense</DialogTitle>
         <DialogContent>

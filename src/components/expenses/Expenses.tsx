@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import ExpenseService from "../../api/ExpenseService";
 import { Expense } from "../../types/expense";
 import dayjsConfig, { DATETIME_FORMAT } from "../../config/dayjsConfig";
+import { months } from "../constants/Months";
 
 interface ExpensesProps {
   loadBudget: () => {};
@@ -19,7 +20,7 @@ const Expenses = (props: ExpensesProps) => {
   const service = new ExpenseService();
 
   const getData = async () => {
-    const response = await service.getAllExpenses();
+    const response = await service.getCurrentExpenses();
     setExpenses(response);
     props.loadBudget();
   };
@@ -27,6 +28,18 @@ const Expenses = (props: ExpensesProps) => {
   useEffect(() => {
     getData();
   }, []);
+
+  const getMaxId = (): number => {
+    let id = 0;
+    expenses.forEach((expense: Expense) => {
+      if (expense.id > id) {
+        id = expense.id;
+      }
+    });
+    return id;
+  };
+
+  const month = months[new Date().getMonth()];
 
   return (
     <Box>
@@ -39,16 +52,18 @@ const Expenses = (props: ExpensesProps) => {
             justifyContent: "space-between",
             fontSize: 20,
             padding: "10%",
-            paddingTop: "5%",
-            paddingBottom: "3%",
+            paddingTop: 0,
+            paddingBottom: 0,
             background: "white",
             borderTopLeftRadius: "3rem",
             alignItems: "center",
+            textDecorationLine: "underline",
+            textDecorationColor: color,
           }}
         >
-          Expenses
+          {month} Expenses
           <AddExpense
-            numExpenses={expenses.length > 0 ? expenses.at(-1).id + 1 : 1}
+            numExpenses={expenses.length > 0 ? getMaxId() + 1 : 1}
             setState={getData}
           />
         </Box>
