@@ -99,7 +99,6 @@ const Home = () => {
               padding: "5%",
             }}
           >
-            <AddIncome />
             <EditBudget loadBudget={loadBudget} budgetLimit={budgetLimit} />
           </Box>
         </Box>

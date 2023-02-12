@@ -18,6 +18,7 @@ interface ExpensesProps {
 const Expenses = (props: ExpensesProps) => {
   const [expenses, setExpenses] = useState<any>([]);
   const service = new ExpenseService();
+  const [expenseMonth, setExpenseMonth] = useState("");
 
   const getData = async () => {
     const response = await service.getCurrentExpenses();
