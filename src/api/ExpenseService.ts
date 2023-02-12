@@ -82,10 +82,10 @@ class ExpenseService {
 
     const data = response
       .then((res) => {
-        const expenses: any[] = [];
+        const expenses: Expense[] = [];
         Object.entries(res as object).forEach(([key, value]) => {
           if (key.includes(EXPENSE_ID_PREFIX)) {
-            expenses.push({ [key]: value });
+            expenses.push(value);
           }
         });
 
@@ -139,7 +139,7 @@ class ExpenseService {
 
     const expenseIds: string[] = [];
     expenses.forEach((expense) => {
-      expenseIds.push(Object.keys(expense as object)[0]);
+      expenseIds.push(EXPENSE_ID_PREFIX + expense.id);
     });
 
     const response = new Promise((resolve, reject) => {
