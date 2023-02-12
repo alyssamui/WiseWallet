@@ -40,6 +40,10 @@ const AddExpense = (props: AddExpenseProps) => {
   const [category, setCategory] = useState("");
   const [categories, setCategories] = useState<string[]>([]);
 
+  const [nameError, setNameError] = useState(false);
+  const [amountError, setAmountError] = useState(false);
+  const [categoryError, setCategoryError] = useState(false);
+
   const service = new ExpenseService();
   const categoryService = new CategoryService();
 
@@ -67,9 +71,27 @@ const AddExpense = (props: AddExpenseProps) => {
     console.log(nextId);
   }, [nextId]);
 
+  const resetErrors = () => {
+    setNameError(false);
+    setAmountError(false);
+    setCategoryError(false);
+  };
+
   const handleAdd = () => {
     setAmount(parseFloat(amount).toFixed(2));
+
+    if (!name) {
+      setNameError(true);
+    }
+    if (!amount) {
+      setAmountError(true);
+    }
+    if (!category) {
+      setCategoryError(true);
+    }
+
     if (name && amount && category) {
+      resetErrors();
       const expense: Expense = {
         id: nextId,
         title: name,
@@ -112,7 +134,7 @@ const AddExpense = (props: AddExpenseProps) => {
           </MenuItem>
         ))}
       </Select>
-      <Tooltip title="Add an Expense" arrow>
+      <Tooltip title="Add an Expense" arrow placement="top">
         <IconButton
           sx={{ marginTop: 1, marginRight: -2 }}
           onClick={() => setOpen(true)}
@@ -127,15 +149,18 @@ const AddExpense = (props: AddExpenseProps) => {
             required
             autoFocus
             margin="dense"
+            helperText={"Please enter an expense name"}
             id="name"
             label="Expense"
             type="text"
             fullWidth
             variant="standard"
             onChange={(e) => setName(e.target.value)}
+            error={nameError}
           />
           <TextField
             required
+            error={categoryError}
             select
             helperText="Please select the category"
             margin="dense"
@@ -163,12 +188,14 @@ const AddExpense = (props: AddExpenseProps) => {
                 ))}
           </TextField>
           <TextField
+            error={amountError}
             required
             margin="dense"
             id="amount"
             label="Amount"
             type="number"
             value={amount}
+            helperText={"Please enter an amount"}
             fullWidth
             variant="standard"
             InputProps={{

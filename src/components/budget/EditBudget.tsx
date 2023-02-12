@@ -31,7 +31,7 @@ const EditBudget = (props: EditBudgetProps) => {
   const service = new BudgetService();
 
   const handleEdit = () => {
-    service.editBudget(parseFloat(budget));
+    service.editBudget(Number(parseFloat(budget).toFixed(2)));
     setOpen(false);
     props.loadBudget();
   };
@@ -61,7 +61,9 @@ const EditBudget = (props: EditBudgetProps) => {
             inputProps={{
               step: 0.5,
             }}
-            onChange={(e) => setBudget(e.target.value)}
+            onChange={(e) => {
+              setBudget(e.target.value);
+            }}
           />
         </DialogContent>
         <DialogActions>
