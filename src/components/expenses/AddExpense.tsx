@@ -77,7 +77,7 @@ const AddExpense = (props: AddExpenseProps) => {
     setCategoryError(false);
   };
 
-  const handleAdd = () => {
+  const handleAdd = async () => {
     setAmount(parseFloat(amount).toFixed(2));
 
     if (!name) {
@@ -99,13 +99,13 @@ const AddExpense = (props: AddExpenseProps) => {
         amount: parseFloat(amount),
         createdAt: dayjsConfig().format(),
       };
-      service.setExpense(props.numExpenses + 1, expense);
+      await service.setExpense(props.numExpenses, expense);
       setOpen(false);
 
       // update parent
-      props.setState();
       setAmount("");
       setNextId(nextId + 1);
+      props.setState();
     }
   };
   return (

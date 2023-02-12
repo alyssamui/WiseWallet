@@ -21,6 +21,7 @@ const Expenses = (props: ExpensesProps) => {
   const [expenseMonth, setExpenseMonth] = useState(dayjsConfig().month());
 
   const getData = async () => {
+    console.log("jhk;wq");
     const response = await service.getExpensesByMonth(expenseMonth);
     setExpenses(response);
     props.loadBudget();
@@ -54,7 +55,7 @@ const Expenses = (props: ExpensesProps) => {
             Expenses
           </Box>
           <AddExpense
-            numExpenses={expenses.length}
+            numExpenses={-1}
             setState={getData}
             setExpenseMonth={setExpenseMonth}
           />

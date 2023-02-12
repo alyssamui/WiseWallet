@@ -38,10 +38,13 @@ const EditBudget = (props: EditBudgetProps) => {
 
   return (
     <>
-      <MoneyButton onClickFunc={() => setOpen(true)} message={"Edit Budget"} />
+      <MoneyButton
+        onClickFunc={() => setOpen(true)}
+        message={"Edit Spending Limit"}
+      />
 
       <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle>Edit Budget</DialogTitle>
+        <DialogTitle>Edit Spending Limit</DialogTitle>
         <DialogContent>
           <TextField
             required
