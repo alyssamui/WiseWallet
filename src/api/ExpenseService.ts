@@ -80,7 +80,7 @@ class ExpenseService {
       });
     });
 
-    const data = response
+    const data = await response
       .then((res) => {
         const expenses: Expense[] = [];
         Object.entries(res as object).forEach(([key, value]) => {

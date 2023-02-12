@@ -8,6 +8,7 @@ import AddExpense from "./AddExpense";
 import { useEffect, useState } from "react";
 import ExpenseService from "../../api/ExpenseService";
 import { Expense } from "../../types/expense";
+import dayjsConfig, { DATETIME_FORMAT } from "../../config/dayjsConfig";
 
 const Expenses = () => {
   const [expenses, setExpenses] = useState<any>([]);
@@ -62,7 +63,9 @@ const Expenses = () => {
                   title={e.title}
                   category={e.type}
                   amount={e.amount}
-                  date={e.createdAt ? e.createdAt : ""}
+                  date={new dayjsConfig.Dayjs(e.createdAt).format(
+                    DATETIME_FORMAT
+                  )}
                 />
               );
             })

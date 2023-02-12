@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import ExpenseService from "../../api/ExpenseService";
+import dayjsConfig, { DATETIME_FORMAT } from "../../config/dayjsConfig";
 
 interface AddExpenseProps {
   numExpenses: number;
@@ -49,7 +50,7 @@ const AddExpense = (props: AddExpenseProps) => {
         title: name,
         type: category,
         amount: parseFloat(amount),
-        createdAt: new Date().toDateString(),
+        createdAt: new dayjsConfig.Dayjs().format(),
       };
       console.log(props.numExpenses);
       console.log(expense);

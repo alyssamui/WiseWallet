@@ -5,5 +5,5 @@ export interface Income {
   title: string;
   type: PayType;
   amount: number;
-  createdAt?: Date;
+  createdAt: Date;
 }
