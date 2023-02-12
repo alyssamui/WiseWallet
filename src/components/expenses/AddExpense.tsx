@@ -29,12 +29,13 @@ interface AddExpenseProps {
   numExpenses: number;
   setState: () => void;
   setExpenseMonth: (n: number) => void;
+  nextId: number;
+  setNextId: (n: number) => void;
 }
 
 const AddExpense = (props: AddExpenseProps) => {
   const [open, setOpen] = useState(false);
 
-  const [nextId, setNextId] = useState(-1);
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
@@ -62,14 +63,10 @@ const AddExpense = (props: AddExpenseProps) => {
       }
       setCategories(response);
 
-      setNextId(await service.getNextId());
+      props.setNextId(await service.getNextId());
     };
     getData();
   }, []);
-
-  useEffect(() => {
-    console.log(nextId);
-  }, [nextId]);
 
   const resetErrors = () => {
     setNameError(false);
@@ -93,7 +90,7 @@ const AddExpense = (props: AddExpenseProps) => {
     if (name && amount && category) {
       resetErrors();
       const expense: Expense = {
-        id: nextId,
+        id: props.nextId,
         title: name,
         category: category,
         amount: parseFloat(amount),
@@ -104,7 +101,7 @@ const AddExpense = (props: AddExpenseProps) => {
 
       // update parent
       setAmount("");
-      setNextId(nextId + 1);
+      props.setNextId(props.nextId + 1);
       props.setState();
     }
   };

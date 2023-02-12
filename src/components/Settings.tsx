@@ -1,6 +1,9 @@
 import {
   Box,
   Button,
+  Dialog,
+  DialogActions,
+  DialogTitle,
   FormControlLabel,
   FormGroup,
   IconButton,
@@ -29,6 +32,7 @@ const Settings = () => {
     }
   };
   const [evilMode, setEvilMode] = useState(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
   useEffect(() => {
     loadEvilOn();
@@ -92,10 +96,21 @@ const Settings = () => {
           sx={{ color: "red", ":hover": { bgcolor: "#8e1b1b" } }}
           onClick={() => {
             service.deleteAllExpenses();
+            setOpenDeleteDialog(true);
           }}
         >
           Delete all Expenses
         </Button>
+        <Dialog
+          open={openDeleteDialog}
+          keepMounted
+          onClose={() => setOpenDeleteDialog(false)}
+        >
+          <DialogTitle>{"Deleted All Expense Data"}</DialogTitle>
+          <DialogActions>
+            <Button onClick={() => setOpenDeleteDialog(false)}>OK</Button>
+          </DialogActions>
+        </Dialog>
       </Box>
     </Box>
   );

@@ -19,6 +19,7 @@ const Expenses = (props: ExpensesProps) => {
   const [expenses, setExpenses] = useState<any>([]);
   const service = new ExpenseService();
   const [expenseMonth, setExpenseMonth] = useState(dayjsConfig().month());
+  const [nextId, setNextId] = useState(-1);
 
   const getData = async () => {
     console.log("jhk;wq");
@@ -58,6 +59,8 @@ const Expenses = (props: ExpensesProps) => {
             numExpenses={-1}
             setState={getData}
             setExpenseMonth={setExpenseMonth}
+            nextId={nextId}
+            setNextId={setNextId}
           />
         </Box>
       </Box>
@@ -81,6 +84,8 @@ const Expenses = (props: ExpensesProps) => {
                   category={expense.category}
                   amount={expense.amount}
                   date={dayjsConfig(expense.createdAt).format(DATETIME_FORMAT)}
+                  nextId={nextId}
+                  setNextId={setNextId}
                 />
               );
             })
