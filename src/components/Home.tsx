@@ -1,5 +1,5 @@
 import { Box, Button, IconButton } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { goTo } from "react-chrome-extension-router";
 import WebFont from "webfontloader";
 import Settings from "./Settings";
@@ -12,12 +12,19 @@ import ExpenseService from "../api/ExpenseService";
 import Expenses from "./expenses/Expenses";
 import AddExpense from "./expenses/AddExpense";
 import AddIncome from "./incomes/AddIncome";
+import EditBudget from "./budget/EditBudget";
+import Budget from "./budget/Budget";
+import BudgetService from "../api/BudgetService";
 
 export const color = "#B79bd6";
+export const darkerColor = "#8F73AF";
 
 const Home = () => {
   const incomeService = new IncomeService();
   const expenseService = new ExpenseService();
+
+  const service = new BudgetService();
+  const [currBudget, setCurrBudget] = useState(0);
 
   useEffect(() => {
     WebFont.load({
@@ -25,6 +32,17 @@ const Home = () => {
         families: ["Ubuntu"],
       },
     });
+  }, []);
+
+  const loadBudget = async () => {
+    const budgetLeft = await service.calculateCurrentBudgetLeft();
+    if (typeof budgetLeft === "number") {
+      setCurrBudget(budgetLeft);
+    }
+  };
+
+  useEffect(() => {
+    loadBudget();
   }, []);
 
   return (
@@ -62,23 +80,7 @@ const Home = () => {
               <SettingsIcon />
             </IconButton>
           </Box>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              borderRadius: "16px",
-              background: "white",
-              margin: "5%",
-              overflow: "hidden",
-              padding: "10px",
-              boxShadow: 1,
-            }}
-          >
-            <Box sx={{ fontSize: 25, color: color }}>Current Budget:</Box>
-            <Box sx={{ fontSize: 20, color: color }}>$</Box>
-          </Box>
+          <Budget loadBudget={loadBudget} currBudget={currBudget} />
           <Box
             sx={{
               display: "flex",
@@ -88,12 +90,12 @@ const Home = () => {
               padding: "5%",
             }}
           >
-            <AddIncome/>
-            <MoneyButton onClickFunc={() => {}} message={"Edit Budget"} />
+            <AddIncome />
+            <EditBudget loadBudget={loadBudget} />
           </Box>
         </Box>
       </Box>
-      <Expenses />
+      <Expenses loadBudget={loadBudget} />
     </Box>
   );
 };

@@ -1,3 +1,4 @@
+import dayjsConfig from "../config/dayjsConfig";
 import { Expense } from "../types/expense";
 
 const EXPENSE_ID_PREFIX = "expense_";
@@ -21,7 +22,7 @@ class ExpenseService {
     const response = new Promise((resolve, reject) => {
       chrome.storage.local.set(payload, () => {
         if (chrome.runtime.lastError) {
-          reject(`Failed to add income: ${JSON.stringify(payload)}`);
+          reject(`Failed to add expense: ${JSON.stringify(payload)}`);
         } else {
           resolve(payload);
         }
@@ -52,16 +53,16 @@ class ExpenseService {
       });
     });
 
-    let data = undefined;
-    response
+    const data = response
       .then((res) => {
         this.onSuccess(
           `Retrieved Expense<${expenseId}>: ${JSON.stringify(res)}`
         );
-        data = res;
+        return Object.values(res as object);
       })
       .catch((err) => {
         this.onError(err);
+        return undefined;
       });
 
     return data;
@@ -80,7 +81,7 @@ class ExpenseService {
       });
     });
 
-    const data = response
+    const data = await response
       .then((res) => {
         const expenses: Expense[] = [];
         Object.entries(res as object).forEach(([key, value]) => {
@@ -108,6 +109,24 @@ class ExpenseService {
       });
 
     return data;
+  }
+
+  async getCurrentExpenses() {
+    const expenses = await this.getAllExpenses();
+    const currMonth = dayjsConfig().month();
+    const filteredExpenses = (expenses as Expense[]).filter((expense) => {
+      const expenseMonth = dayjsConfig(expense.createdAt).month();
+      return currMonth === expenseMonth;
+    });
+    return filteredExpenses.sort((e1, e2) => {
+      const dayjsInst = dayjsConfig(e1.createdAt);
+      if (dayjsInst.isBefore(e2.createdAt)) {
+        return -1;
+      } else if (dayjsInst.isSame(e2.createdAt)) {
+        return 0;
+      }
+      return 1;
+    });
   }
 
   async deleteExpense(id: number) {

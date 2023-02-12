@@ -1,4 +1,3 @@
-import { Category } from "../types/category";
 
 const CATEGORY_PREFIX = "category";
 
@@ -11,18 +10,15 @@ class CategoryService {
     console.log(error);
   }
 
-  static categoriesToString(categories: Category[]): string[] {
-    return categories.map((category) => category.title);
-  }
-
-  static stringsToCategories(strings: string[]): Category[] {
-    return strings.map((str) => ({ title: str } as Category));
-  }
 
   async addCategory(category: string) {
     // get all current categories and then update the stored list with the new category
     const categories = await this.getCategories();
-    categories.push({ title: category });
+    if (categories.findIndex((c: string) => {
+      return c === category
+    }) === -1) {
+      categories.push(category);
+    }
 
     const payload = {
       [CATEGORY_PREFIX]: categories,
@@ -40,17 +36,13 @@ class CategoryService {
       });
     });
 
-    let data = undefined;
     response
       .then((res) => {
         this.onSuccess(`Added Category ${category}`);
-        data = res;
       })
       .catch((err) => {
         this.onError(err);
       });
-
-    return data;
   }
 
   async getCategories() {
@@ -66,14 +58,14 @@ class CategoryService {
       });
     });
 
-    let data: Category[] = [];
-    response
+    const data = response
       .then((res: any) => {
         this.onSuccess(`Retrieved all categories: ${JSON.stringify(res)}`);
-        data = res[CATEGORY_PREFIX];
+        return res[CATEGORY_PREFIX];
       })
       .catch((err) => {
         this.onError(err);
+        return [];
       });
 
     return data;
@@ -82,7 +74,7 @@ class CategoryService {
   async deleteCategory(category: string) {
     // get all current categories and then update the stored list with the new category
     const categories = await this.getCategories();
-    const deleteIdx = categories.findIndex((c) => c.title === category);
+    const deleteIdx = categories.findIndex((c : string) => c === category);
     if (deleteIdx > -1) {
       categories.splice(deleteIdx, 1);
     } else {
@@ -101,22 +93,18 @@ class CategoryService {
             `Failed to delete Category ${category}. ${chrome.runtime.lastError}`
           );
         } else {
-          resolve(payload);
+          resolve(null);
         }
       });
     });
 
-    let data = undefined;
     response
       .then((res) => {
         this.onSuccess(`Deleted Category ${category}`);
-        data = res;
       })
       .catch((err) => {
         this.onError(err);
       });
-
-    return data;
   }
 }
 

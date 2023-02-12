@@ -1,4 +1,4 @@
-import { Box } from "@mui/system";
+import { Box, maxHeight } from "@mui/system";
 import ExpenseCard from "./ExpenseCard";
 import { color } from "../Home";
 import MoneyButton from "../MoneyButton";
@@ -15,34 +15,68 @@ import {
   MenuItem,
   TextField,
 } from "@mui/material";
-import { useState } from "react";
+import { Dispatch, useEffect, useState } from "react";
+import ExpenseService from "../../api/ExpenseService";
+import dayjsConfig, { DATETIME_FORMAT } from "../../config/dayjsConfig";
+import CategoryService from "../../api/CategoryService";
+import { Expense } from "../../types/expense";
+import { DefaultCategories } from "../constants/DefaultCategories";
 
-const AddExpense = () => {
+interface AddExpenseProps {
+  numExpenses: number;
+  setState: () => void;
+}
+
+const AddExpense = (props: AddExpenseProps) => {
   const [open, setOpen] = useState(false);
 
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
+  const [categories, setCategories] = useState<string[]>([]);
 
-  const categories = [
-    {
-      value: "food",
-      label: "Food",
-    },
-    {
-      value: "misc",
-      label: "Misc",
-    },
-  ];
+  const service = new ExpenseService();
+  const categoryService = new CategoryService();
+
+  useEffect(() => {
+    // INITIALIZE CATEGORIES
+    const getData = async () => {
+      let response = await categoryService.getCategories();
+      if (response) {
+        DefaultCategories.forEach((c) => {
+          if (!response.includes(c)) {
+            response = [...response, c];
+          }
+        });
+      } else {
+        setCategories(DefaultCategories);
+      }
+      setCategories(response);
+    };
+    getData();
+  }, []);
 
   const handleAdd = () => {
     setAmount(parseFloat(amount).toFixed(2));
     if (name && amount && category) {
+      const expense: Expense = {
+        id: props.numExpenses + 1,
+        title: name,
+        category: category,
+        amount: parseFloat(amount),
+        createdAt: dayjsConfig().format(),
+      };
+      service.setExpense(props.numExpenses + 1, expense);
+      setOpen(false);
+
+      // update parent
+      props.setState();
+      setAmount("");
     }
   };
   return (
     <>
-      <IconButton onClick={() => setOpen(true)}>
+      <IconButton sx={{ marginTop: 1 }} onClick={() => setOpen(true)}>
         <AddIcon />
       </IconButton>
       <Dialog open={open} onClose={() => setOpen(false)}>
@@ -57,7 +91,6 @@ const AddExpense = () => {
             type="text"
             fullWidth
             variant="standard"
-            error={!name}
             onChange={(e) => setName(e.target.value)}
           />
           <TextField
@@ -70,14 +103,23 @@ const AddExpense = () => {
             type="text"
             fullWidth
             variant="standard"
-            error={!category}
+            style={{ maxHeight: "50%" }}
             onChange={(e) => setCategory(e.target.value)}
+            SelectProps={{
+              MenuProps: { PaperProps: { sx: { maxHeight: "50%" } } },
+            }}
           >
-            {categories.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
+            {categories
+              ? categories.map((c) => (
+                  <MenuItem key={c} value={c}>
+                    {c}
+                  </MenuItem>
+                ))
+              : DefaultCategories.map((c) => (
+                  <MenuItem key={c} value={c}>
+                    {c}
+                  </MenuItem>
+                ))}
           </TextField>
           <TextField
             required
@@ -88,7 +130,6 @@ const AddExpense = () => {
             value={amount}
             fullWidth
             variant="standard"
-            error={!amount}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">$</InputAdornment>
