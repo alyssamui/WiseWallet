@@ -29,7 +29,6 @@ response.then((res) => {
         console.log(counter);
         if (counter >= 5) {
           window.location.href = `https://giphy.com/search/no-money`;
-          alert("");
         }
       };
     });
