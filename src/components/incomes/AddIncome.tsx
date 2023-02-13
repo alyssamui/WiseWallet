@@ -67,7 +67,6 @@ const AddIncome = () => {
             error={!payType}
             onChange={(e) => {
               setPayType(e.target.value);
-              console.log(Object.keys(PayType));
             }}
           >
             {Object.values(PayType)

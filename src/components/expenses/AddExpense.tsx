@@ -119,7 +119,6 @@ const AddExpense = (props: AddExpenseProps) => {
         MenuProps={{ PaperProps: { sx: { maxHeight: "50%" } } }}
         onChange={(e) => {
           const monthNum = months.indexOf(e.target.value);
-          console.log("setmonthnum", monthNum);
           props.setExpenseMonth(monthNum);
         }}
         sx={{

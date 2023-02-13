@@ -5,8 +5,6 @@ import WebFont from "webfontloader";
 import Settings from "./Settings";
 import "./Home.css";
 import SettingsIcon from "@mui/icons-material/Settings";
-import IncomeService from "../api/incomeService";
-import ExpenseService from "../api/ExpenseService";
 import Expenses from "./expenses/Expenses";
 import EditBudget from "./budget/EditBudget";
 import Budget from "./budget/Budget";
@@ -16,7 +14,6 @@ export const color = "#B79bd6";
 export const darkerColor = "#8F73AF";
 
 const Home = () => {
-
   const service = new BudgetService();
   const [currBudget, setCurrBudget] = useState(0);
   const [budgetLimit, setBudgetLimit] = useState(0);
@@ -72,7 +69,6 @@ const Home = () => {
           >
             <IconButton
               onClick={() => {
-                console.log("CLICKED");
                 goTo(Settings);
               }}
             >

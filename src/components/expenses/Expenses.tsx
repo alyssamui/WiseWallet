@@ -17,7 +17,6 @@ const Expenses = (props: ExpensesProps) => {
   const [nextId, setNextId] = useState(-1);
 
   const getData = async () => {
-    console.log("jhk;wq");
     const response = await service.getExpensesByMonth(expenseMonth);
     setExpenses(response);
     props.loadBudget();
@@ -70,7 +69,6 @@ const Expenses = (props: ExpensesProps) => {
       >
         {expenses.length > 0
           ? expenses.map((expense: any) => {
-              console.log(expense);
               return (
                 <ExpenseCard
                   setState={getData}
